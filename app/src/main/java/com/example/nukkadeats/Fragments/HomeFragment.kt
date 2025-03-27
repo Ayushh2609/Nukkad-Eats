@@ -5,12 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.ImageSlider
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
 import com.example.nukkadeats.R
+import com.example.nukkadeats.adapters.Popular_Item_Recycler_Adapter
 import com.example.nukkadeats.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -19,6 +23,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
     }
 
@@ -47,7 +52,6 @@ class HomeFragment : Fragment() {
 
         imageSlider.setItemClickListener(object : ItemClickListener{
             override fun doubleClick(position: Int) {
-
             }
 
             override fun onItemSelected(position: Int) {
@@ -57,6 +61,15 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext() , itemMessage , Toast.LENGTH_SHORT).show()
             }
         })
+
+        val foodNames = listOf("Burger", "Pizza" , "Tatti", "Sydney Sweeney Kachi Ghani")
+        val foodPrice = listOf("80", "120" , "1500", "999999")
+        val foodImage= listOf(R.drawable.burger , R.drawable.pizza , R.drawable.poop , R.drawable.sydney)
+        val foodDescriptions = listOf("Very premium quality Gupta Burger" , "Pizza with Parmesan cheese(Dhong hai dhong)" , "Dish of the year" , "Dish Only available for developer(Ayush Paliwal)")
+
+        val adapter = Popular_Item_Recycler_Adapter(foodNames , foodPrice , foodImage , foodDescriptions)
+        binding.popularRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.popularRecyclerView.adapter = adapter
     }
 
 }

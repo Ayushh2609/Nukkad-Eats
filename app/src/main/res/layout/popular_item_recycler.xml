@@ -1,56 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="22dp"
-        app:cardElevation="10dp"
-        android:layout_marginTop="25dp">
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        app:cardCornerRadius="15dp"
+        android:backgroundTint="#FCF5FD"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
             android:layout_gravity="center">
-            
+
             <ImageView
+                android:id="@+id/popularFoodImage"
+
                 android:layout_width="64dp"
                 android:layout_height="64dp"
+                android:layout_margin="16dp"
                 android:background="@drawable/whitebutton"
+                android:scaleType="centerCrop"
                 android:src="@drawable/logo"
-                android:layout_margin="16dp">
-            </ImageView>
+                android:clipToOutline="true"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_gravity="center"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/popularFoodName"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Herbal Pancake"
-                    android:textColor="@color/black"
+                    android:layout_gravity="start"
                     android:fontFamily="@font/yeon_sung"
-                    android:layout_gravity="start">
-                </TextView>
-                
+                    android:text="Herbal Pancake"
+                    android:textSize="20sp"
+                    android:textColor="@color/black" />
+
                 <TextView
                     android:id="@+id/popularFoodDescription"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="start"
                     android:text="Ghaas Phuss khana hai ye"
-                    android:textColor="#737373"
-                    android:layout_gravity="start">
-                </TextView>
+                    android:textColor="#737373"></TextView>
 
             </LinearLayout>
 
@@ -76,18 +84,15 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/popularFoodAddBtn"
 
-                    android:layout_width="53dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="16dp"
-                    android:background = "@drawable/nextbutton"
-                    android:text="Add To Cart"
-                    android:textSize="6dp"
-                    android:textColor="@color/white">
-                </androidx.appcompat.widget.AppCompatButton>
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/nextbutton"
+                    android:text="Add"
+                    android:textColor="@color/white"
+                    android:textSize="10dp" />
 
             </LinearLayout>
-            
-
 
 
         </LinearLayout>

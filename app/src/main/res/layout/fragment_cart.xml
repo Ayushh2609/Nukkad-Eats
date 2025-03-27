@@ -1,14 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.CartFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Cart Hai ye tri" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/yeon_sung"
+        android:text="Cart"
+        android:textColor="#FF0000"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cartRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardButton"
+        android:layout_width="350dp"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:cardCornerRadius="20dp"
+
+        app:cardBackgroundColor="@android:color/transparent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/cart_proceed">
+
+            <!-- Proceed Button -->
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/startGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="32dp" />
+
+            <!-- Sub-Total -->
+            <TextView
+                android:id="@+id/subTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/yeon_sung"
+                android:text="Sub-Total"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/startGuideline"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="16dp" />
+
+            <!-- Delivery Charge -->
+
+            <!-- Discount -->
+            <TextView
+                android:id="@+id/deliveryCharge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/yeon_sung"
+                android:text="Delivery charge"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/startGuideline"
+                app:layout_constraintTop_toBottomOf="@id/subTotal" />
+
+            <TextView
+                android:id="@+id/discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/yeon_sung"
+                android:text="Discount"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/startGuideline"
+                app:layout_constraintTop_toBottomOf="@id/deliveryCharge" />
+
+            <!-- Total -->
+
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/yeon_sung"
+                android:text="Total"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/startGuideline"
+                app:layout_constraintTop_toBottomOf="@id/discount" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/appCompatButton"
+                android:layout_width="325dp"
+                android:layout_height="57dp"
+                android:background="@drawable/whitebutton"
+                android:fontFamily="@font/yeon_sung"
+                android:text="Proceed"
+                android:textColor="#D32F2F"
+                android:textSize="18sp"
+                android:layout_marginBottom="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/startGuideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="32dp" />
+
+            <TextView
+                android:id="@+id/subTotalAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="120"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/subTotal"
+                android:drawableLeft="@drawable/rupee_icon2"
+                android:drawablePadding="5dp"
+                app:layout_constraintEnd_toEndOf="@+id/startGuideline2"
+                app:layout_constraintTop_toTopOf="@+id/subTotal" />
+
+            <TextView
+                android:id="@+id/deliveryChargeAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/deliveryCharge"
+                android:drawableLeft="@drawable/rupee_icon2"
+                android:drawablePadding="5dp"
+                app:layout_constraintEnd_toEndOf="@+id/startGuideline2"
+                app:layout_constraintTop_toTopOf="@+id/deliveryCharge" />
+
+            <TextView
+                android:id="@+id/DiscountAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/discount"
+                android:drawableLeft="@drawable/rupee_icon2"
+                android:drawablePadding="5dp"
+                app:layout_constraintEnd_toEndOf="@+id/startGuideline2"
+                app:layout_constraintTop_toTopOf="@+id/discount" />
+
+            <TextView
+                android:id="@+id/TotalAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="150"
+                android:textColor="@color/white"
+                android:drawableLeft="@drawable/rupee_icon2"
+                android:drawablePadding="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/total"
+                app:layout_constraintEnd_toEndOf="@+id/startGuideline2"
+                app:layout_constraintTop_toTopOf="@+id/total" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

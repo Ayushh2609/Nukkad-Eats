@@ -38,7 +38,7 @@
         android:layout_marginTop="40dp"
         android:fontFamily="@font/yeon_sung"
         android:text="Ajja Bhukhe Khana khale"
-        android:textColor="#FF0000"
+        android:textColor="#925757"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -52,7 +52,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView12"
         app:srcCompat="@drawable/bell_icon" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

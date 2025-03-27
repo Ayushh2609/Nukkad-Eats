@@ -32,11 +32,10 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/popularRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginTop="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,10 +46,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Popular"
-        android:textColor="#FF0000"
+        android:layout_marginTop="25dp"
         android:fontFamily="@font/yeon_sung"
+        android:text="Popular"
+        android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView2" />
@@ -59,14 +58,14 @@
         android:id="@+id/textView14"
         android:layout_width="80dp"
         android:layout_height="25dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="25dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/text_shape"
         android:elevation="5dp"
+        android:fontFamily="@font/lato"
         android:gravity="center"
         android:text="View More"
         android:textColor="#FF0000"
-        android:fontFamily="@font/lato"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
