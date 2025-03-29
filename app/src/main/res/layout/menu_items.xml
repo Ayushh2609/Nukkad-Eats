@@ -8,6 +8,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:layout_margin="5dp"
         app:cardCornerRadius="15dp"
         android:backgroundTint="#FFE2E2"
@@ -21,15 +22,15 @@
             android:layout_gravity="center">
 
             <ImageView
-                android:id="@+id/popularFoodImage"
 
+                android:id="@+id/menuItemImage"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_margin="16dp"
                 android:background="@drawable/whitebutton"
+                android:clipToOutline="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/logo"
-                android:clipToOutline="true"/>
+                android:src="@drawable/logo" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -39,7 +40,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/popularFoodName"
+                    android:id="@+id/menuItemName"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -50,7 +51,7 @@
                     android:textColor="@color/black" />
 
                 <TextView
-                    android:id="@+id/popularFoodDescription"
+                    android:id="@+id/menuItemDescription"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -68,7 +69,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/popularFoodPrice"
+                    android:id="@+id/menuItemPrice"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -80,7 +81,7 @@
                     android:textColor="#FF0000" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/popularFoodAddBtn"
+                    android:id="@+id/addToCart"
 
                     android:layout_width="70dp"
                     android:layout_height="35dp"

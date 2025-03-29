@@ -15,6 +15,7 @@
         android:fontFamily="@font/yeon_sung"
         android:text="Cart"
         android:textColor="#FF0000"
+        android:textStyle="bold"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

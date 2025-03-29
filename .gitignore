@@ -1,10 +1,6 @@
-.gradle
-.idea
-*.iml
-build/
-bin/
-local.properties
-.DS_Store # For macOS
-/captures
-.externalNativeBuild
-.cxx
+import pywhatkit as pwk
+
+phone = "+917037034126"
+message = "Hello"
+
+pwk.sendwhatmsg(phone , message)

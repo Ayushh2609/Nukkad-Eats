@@ -13,6 +13,7 @@ import com.denzcoskun.imageslider.ImageSlider
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
+import com.example.nukkadeats.MenuBottomSheetFragment
 import com.example.nukkadeats.R
 import com.example.nukkadeats.adapters.Popular_Item_Recycler_Adapter
 import com.example.nukkadeats.databinding.FragmentHomeBinding
@@ -34,6 +35,12 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
 
         binding = FragmentHomeBinding.inflate(layoutInflater , container , false)
+
+        binding.viewMenubtn.setOnClickListener{
+            val bottonSheetDialog = MenuBottomSheetFragment()
+            bottonSheetDialog.show(parentFragmentManager , "Test")
+        }
+
         return binding.root
     }
 
