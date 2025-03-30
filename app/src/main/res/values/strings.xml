@@ -2,7 +2,8 @@
     <string name="app_name">Nukkad Eats</string>
     <string name="location_description"><b>Note</b>: We need your location to accurately display restaurants and delivery options closest to you. This helps ensure your food arrives quickly and fresh!\"</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Congrats\nYour Order Placed</string>
     <string name="call_for_information"><u>Call for Information</u>></string>
     <string name="previously_buy"><u>Previously Buy</u></string>
+    <string name="payment_method">Payment\nMethod</string>
 </resources>
