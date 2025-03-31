@@ -1,16 +1,11 @@
 package com.example.nukkadeats
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nukkadeats.adapters.MenuAdapter
-import com.example.nukkadeats.adapters.Popular_Item_Recycler_Adapter
-import com.example.nukkadeats.adapters.cartAdapter
-import com.example.nukkadeats.databinding.FragmentCartBinding
-import com.example.nukkadeats.databinding.FragmentHomeBinding
 import com.example.nukkadeats.databinding.FragmentMenuBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -50,7 +45,7 @@ class MenuBottomSheetFragment : BottomSheetDialogFragment() {
         val allMenuPrice = listOf("80", "120" , "1500", "999999" , "80", "120" , "1500", "999999" , "80", "120" , "1500", "999999")
         val allMenuimage = listOf(R.drawable.burger , R.drawable.pizza , R.drawable.poop , R.drawable.sydney , R.drawable.burger , R.drawable.pizza , R.drawable.poop , R.drawable.sydney , R.drawable.burger , R.drawable.pizza , R.drawable.poop , R.drawable.sydney)
 
-        val adapter = MenuAdapter(ArrayList(allMenuNames) , ArrayList(allMenuDescription) , ArrayList(allMenuPrice) , ArrayList(allMenuimage))
+        val adapter = MenuAdapter(ArrayList(allMenuNames) , ArrayList(allMenuDescription) , ArrayList(allMenuPrice) , ArrayList(allMenuimage) , requireContext())
         binding.viewMenuRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.viewMenuRecycler.adapter = adapter
 
