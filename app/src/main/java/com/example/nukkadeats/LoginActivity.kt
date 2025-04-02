@@ -2,11 +2,8 @@ package com.example.nukkadeats
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.nukkadeats.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -17,6 +14,12 @@ private val binding : ActivityLoginBinding by lazy {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setContentView(binding.root)
+
+        binding.loginBtn.setOnClickListener {
+            val intent = Intent(this , MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
 
         binding.dontHaveAccount.setOnClickListener{
             val intent = Intent(this , SignupActivity::class.java)

@@ -24,7 +24,7 @@ class SignupActivity : AppCompatActivity() {
         }
 
         binding.signUpCreateButton.setOnClickListener{
-            val intent = Intent(this , MainActivity::class.java)
+            val intent = Intent(this , ChooseLocationActivity::class.java)
             startActivity(intent)
         }
     }

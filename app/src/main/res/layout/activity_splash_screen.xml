@@ -35,7 +35,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="90dp"
         android:text="Taste the Corner"
         android:textColor="#CA6C6C"
         app:layout_constraintEnd_toEndOf="@+id/textView"

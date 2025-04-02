@@ -36,7 +36,5 @@ class ItemDetailsActivity : AppCompatActivity() {
         binding.addToCartBtn.setOnClickListener {
 
         }
-
-
     }
 }

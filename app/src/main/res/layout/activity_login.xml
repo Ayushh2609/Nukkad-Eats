@@ -158,7 +158,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button3"
+        android:id="@+id/loginBtn"
         android:layout_width="157dp"
         android:layout_height="57dp"
         android:layout_marginTop="45dp"
