@@ -25,40 +25,40 @@
         android:id="@+id/textInputLayout"
 
         style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-        android:layout_width="match_parent"
+        android:layout_width="380dp"
         android:layout_height="57dp"
         android:layout_marginTop="15dp"
-        app:endIconTint="@color/black"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
+        app:endIconTint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10">
-        
+
         <AutoCompleteTextView
             android:id="@+id/stateAutoComplete"
 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/lato"
             android:inputType="none"
             android:text="Choose State...."
-            android:textColor="@color/black"
-            android:fontFamily="@font/lato"
-            android:backgroundTint="@color/white">
-        </AutoCompleteTextView>
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout2"
         style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-        android:layout_width="match_parent"
+        android:layout_width="380dp"
         android:layout_height="57dp"
         android:layout_marginTop="150dp"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
         app:endIconTint="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-        tools:layout_editor_absoluteX="16dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
         <AutoCompleteTextView
             android:id="@+id/cityAutoComplete"
@@ -69,7 +69,7 @@
             android:fontFamily="@font/lato"
             android:inputType="none"
             android:text="Choose City...."
-            android:textColor="@color/black"></AutoCompleteTextView>
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
