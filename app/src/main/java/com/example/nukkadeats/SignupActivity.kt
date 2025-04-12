@@ -2,13 +2,12 @@ package com.example.nukkadeats
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.ViewCompat
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import androidx.core.view.WindowInsetsCompat
+//import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.example.nukkadeats.Modal.UserModal
 import com.example.nukkadeats.databinding.ActivitySignupBinding
 import com.facebook.CallbackManager
 import com.google.firebase.auth.FirebaseAuth
@@ -24,7 +23,7 @@ class SignupActivity : AppCompatActivity() {
     private lateinit var password : String
     private lateinit var auth : FirebaseAuth
     private lateinit var database : DatabaseReference
-    private lateinit var googleSignInClient : GoogleSignInClient
+//    private lateinit var googleSignInClient : GoogleSignInClient
     private lateinit var callbackManager : CallbackManager
 
     private val binding : ActivitySignupBinding by lazy{
@@ -75,11 +74,21 @@ class SignupActivity : AppCompatActivity() {
                 finish()
             }else{
                 Toast.makeText(this , "Account creation failed" , Toast.LENGTH_LONG).show()
+                Log.d("AccountFail" , "createAccount: ${task.exception}")
             }
         }
     }
 
     private fun saveUserData() {
 
+        username = binding.username.text.toString()
+        email = binding.emailId.text.toString().trim()
+        password = binding.passwd.text.toString().trim()
+
+        val user = UserModal(email , username , password)
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+
+        //Saving data to Users node in Firebase Database
+        database.child("users").child(userId).setValue(user)
     }
 }
