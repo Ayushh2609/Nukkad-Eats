@@ -177,12 +177,12 @@
         android:id="@+id/dontHaveAccount"
         android:layout_width="266dp"
         android:layout_height="19dp"
-        android:layout_marginBottom="45dp"
         android:fontFamily="@font/lato_bold"
         android:text="Don't have an account?"
         android:textAlignment="center"
         android:textColor="#FF0000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
 </androidx.constraintlayout.widget.ConstraintLayout>
