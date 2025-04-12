@@ -134,7 +134,7 @@ class SignupActivity : AppCompatActivity() {
         email = binding.emailId.text.toString().trim()
         password = binding.passwd.text.toString().trim()
 
-        val user = UserModal(email , username , password)
+        val user = UserModal(username , email  , password)
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
 
         //Saving data to Users node in Firebase Database
