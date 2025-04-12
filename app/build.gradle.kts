@@ -61,6 +61,10 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    //Google
+    implementation ("com.google.android.gms:play-services-auth:21.3.0")
+
+    //Facebook
     implementation ("com.facebook.android:facebook-android-sdk:latest.release")
 
     implementation (libs.imageslideshow)

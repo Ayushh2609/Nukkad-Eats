@@ -6,7 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-//import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.example.nukkadeats.Modal.UserModal
 import com.example.nukkadeats.databinding.ActivitySignupBinding
 import com.facebook.CallbackManager
@@ -23,7 +23,7 @@ class SignupActivity : AppCompatActivity() {
     private lateinit var password : String
     private lateinit var auth : FirebaseAuth
     private lateinit var database : DatabaseReference
-//    private lateinit var googleSignInClient : GoogleSignInClient
+    private lateinit var googleSignInClient : GoogleSignInClient
     private lateinit var callbackManager : CallbackManager
 
     private val binding : ActivitySignupBinding by lazy{
