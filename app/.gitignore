@@ -1,1 +1,24 @@
-/build
+# Ignore Android Studio specific files
+.idea/
+*.iml
+*.hprof
+/local.properties
+/.gradle
+/build/
+.gradle/
+# Ignore Android Firebase config files
+google-services.json
+# Ignore Gradle wrapper files
+gradle-wrapper.jar
+gradle-wrapper.properties
+
+# Ignore node_modules if you're using React Native or similar
+node_modules/
+
+# Ignore environment variable files
+.env
+
+# Ignore log files
+*.log
+
+app/src/main/res/values/strings.xml
