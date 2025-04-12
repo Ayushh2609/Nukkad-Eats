@@ -127,6 +127,7 @@ class SignupActivity : AppCompatActivity() {
         }
     }
 
+    //Saving Data manually
     private fun saveUserData() {
 
         username = binding.username.text.toString()

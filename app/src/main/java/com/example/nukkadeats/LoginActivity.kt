@@ -5,10 +5,16 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.nukkadeats.databinding.ActivityLoginBinding
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var email : String
     private  lateinit var password : String
+    private  lateinit var auth : FirebaseAuth
+    private  lateinit var database : DatabaseReference
+    private lateinit var googleSignInClient : GoogleSignInClient
 
 private val binding : ActivityLoginBinding by lazy {
     ActivityLoginBinding.inflate(layoutInflater)
