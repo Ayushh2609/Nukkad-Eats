@@ -2,6 +2,7 @@ package com.example.nukkadeats
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -45,8 +46,40 @@ class SignupActivity : AppCompatActivity() {
         }
 
         binding.signUpCreateButton.setOnClickListener{
-            val intent = Intent(this , ChooseLocationActivity::class.java)
-            startActivity(intent)
+            username = binding.username.text.toString().trim()
+            email = binding.emailId.text.toString().trim()
+            password = binding.passwd.text.toString().trim()
+
+            if(username.isBlank()){
+                binding.username.error = "Please provide the username"
+            }
+            if(email.isBlank()){
+                binding.emailId.error = "Please provide the email"
+            }
+            if(password.isBlank()){
+                binding.passwd.error = "Please enter the password"
+            }
+            else{
+                createAccount(email , password)
+            }
         }
+    }
+
+    private fun createAccount(email : String , password : String) {
+        auth.createUserWithEmailAndPassword(email , password).addOnCompleteListener { task ->
+
+            if(task.isSuccessful){
+                saveUserData()
+                Toast.makeText(this , "Account creation successful" , Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this , LoginActivity::class.java))
+                finish()
+            }else{
+                Toast.makeText(this , "Account creation failed" , Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun saveUserData() {
+
     }
 }
