@@ -1,16 +1,20 @@
 package com.example.nukkadeats
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.nukkadeats.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -59,11 +63,39 @@ private val binding : ActivityLoginBinding by lazy {
             }
         }
 
+        binding.googleButton.setOnClickListener {
+            val signinIntent = googleSignInClient.signInIntent
+            launcher.launch(signinIntent)
+        }
+
         binding.dontHaveAccount.setOnClickListener{
             val intent = Intent(this , SignupActivity::class.java)
             startActivity(intent)
         }
 
+    }
+
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
+        if(result.resultCode == Activity.RESULT_OK){
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            if(task.isSuccessful){
+                val account : GoogleSignInAccount? = task.result
+                val credential = GoogleAuthProvider.getCredential(account?.idToken , null)
+
+                auth.signInWithCredential(credential).addOnCompleteListener {authTask ->
+                    if(authTask.isSuccessful){
+                        val user = auth.currentUser
+                        Toast.makeText(this , "Welcome ${user?.displayName}" , Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this , MainActivity::class.java))
+                        finish()
+                    }else{
+                        Toast.makeText(this , "Account creation failed" , Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }else{
+                Toast.makeText(this , "Account creation failed" , Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun createUser() {
@@ -76,6 +108,14 @@ private val binding : ActivityLoginBinding by lazy {
                 Toast.makeText(this , "User Not Found" , Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this , SignupActivity::class.java))
             }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if(currentUser != null){
+            updateUi(currentUser)
         }
     }
 

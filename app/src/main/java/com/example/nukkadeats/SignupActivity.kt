@@ -100,7 +100,7 @@ class SignupActivity : AppCompatActivity() {
                         startActivity(Intent(this , MainActivity::class.java))
                         finish()
                     }else{
-                        Toast.makeText(this , "Account creation failed" , Toast.LENGTH_LONG).show()
+                        Toast.makeText(this , "Account creation failed" , Toast.LENGTH_SHORT).show()
                         Log.d("AccountFail" , "createAccount: ${task.exception}")
                     }
                 }
