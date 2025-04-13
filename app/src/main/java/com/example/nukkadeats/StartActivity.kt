@@ -7,8 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 class StartActivity : AppCompatActivity() {
+
+    private lateinit var auth : FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -23,4 +28,18 @@ class StartActivity : AppCompatActivity() {
 
 
     }
+
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if(currentUser != null){
+            updateUi(currentUser)
+        }
+    }
+    private fun updateUi(user: FirebaseUser?) {
+        startActivity(Intent(this , MainActivity::class.java))
+        finish()
+    }
+
+
 }
