@@ -45,7 +45,7 @@ private val binding : ActivityLoginBinding by lazy {
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.Default_web_client_id)).requestEmail().build()
 
-        val googleSignInClient = GoogleSignIn.getClient(this , googleSignInOptions)
+        googleSignInClient = GoogleSignIn.getClient(this , googleSignInOptions)
 
         binding.loginBtn.setOnClickListener {
 
