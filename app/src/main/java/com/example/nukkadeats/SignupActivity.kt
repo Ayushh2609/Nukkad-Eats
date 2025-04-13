@@ -11,11 +11,19 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.example.nukkadeats.Modal.UserModal
 import com.example.nukkadeats.databinding.ActivitySignupBinding
+import com.facebook.AccessToken
 import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FacebookAuthProvider
+import com.google.firebase.auth.FacebookAuthProvider.*
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -63,6 +71,30 @@ class SignupActivity : AppCompatActivity() {
         binding.googleButton.setOnClickListener {
             val signInIntent = googleSignInClient.signInIntent
             launcher.launch(signInIntent)
+        }
+
+        //Facebook Button
+        binding.facebookButton.setOnClickListener {
+            LoginManager.getInstance().logInWithReadPermissions(
+                this,
+                listOf("email", "public_profile")
+            )
+
+            LoginManager.getInstance().registerCallback(callbackManager, object :
+                FacebookCallback<LoginResult> {
+                override fun onSuccess(loginResult: LoginResult) {
+                    Log.d("Success", "facebook:onSuccess:$loginResult")
+                    handleFacebookAccessToken(loginResult.accessToken)
+                }
+
+                override fun onCancel() {
+                    Log.d("OnCancel", "facebook:onCancel")
+                }
+
+                override fun onError(error: FacebookException) {
+                    Log.d("OnError", "facebook:onError", error)
+                }
+            })
         }
 
         binding.signUpCreateButton.setOnClickListener{
@@ -139,5 +171,42 @@ class SignupActivity : AppCompatActivity() {
 
         //Saving data to Users node in Firebase Database
         database.child("users").child(userId).setValue(user)
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Pass the activity result back to the Facebook SDK
+        callbackManager.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun handleFacebookAccessToken(token: AccessToken) {
+        Log.d("TAG", "handleFacebookAccessToken:$token")
+
+        val credential = getCredential(token.token)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("TAG", "signInWithCredential:success")
+                    val user = auth.currentUser
+                    updateUI(user)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("TAG", "signInWithCredential:failure", task.exception)
+                    Toast.makeText(
+                        baseContext,
+                        "Authentication failed.",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                    updateUI(null)
+                }
+            }
+    }
+
+    private fun updateUI(user: FirebaseUser?) {
+        startActivity(Intent(this , MainActivity::class.java))
+        finish()
     }
 }

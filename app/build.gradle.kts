@@ -67,5 +67,7 @@ dependencies {
     //Facebook
     implementation ("com.facebook.android:facebook-android-sdk:latest.release")
 
+    implementation ("com.facebook.android:facebook-android-sdk:latest.release")
+
     implementation (libs.imageslideshow)
 }

@@ -7,5 +7,9 @@
     <string name="previously_buy"><u>Previously Buy</u></string>
     <string name="payment_method">Payment\nMethod</string>
 
+    <string name="facebook_app_id">1479094426753466</string>
+    <string name="fb_login_protocol_scheme">1479094426753466</string>
+    <string name="facebook_client_token">d5b639d206dad81885ae563b8a66c567</string>
+
 
 </resources>

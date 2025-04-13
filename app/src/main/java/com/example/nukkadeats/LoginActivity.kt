@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.nukkadeats.databinding.ActivityLoginBinding
+import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -27,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
     private  lateinit var auth : FirebaseAuth
     private  lateinit var database : DatabaseReference
     private lateinit var googleSignInClient : GoogleSignInClient
+    private val callbackManager: CallbackManager = CallbackManager.Factory.create()
 
 private val binding : ActivityLoginBinding by lazy {
     ActivityLoginBinding.inflate(layoutInflater)
