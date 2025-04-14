@@ -38,7 +38,7 @@ class SignupActivity : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
     private lateinit var database : DatabaseReference
     private lateinit var googleSignInClient : GoogleSignInClient
-    private lateinit var callbackManager : CallbackManager
+//    private lateinit var callbackManager : CallbackManager
 
     private val binding : ActivitySignupBinding by lazy{
         ActivitySignupBinding.inflate(layoutInflater)
@@ -54,7 +54,7 @@ class SignupActivity : AppCompatActivity() {
         //Inititalize Database
         database = Firebase.database.reference
 
-        //
+        //Initialize Google Signin Options
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.Default_web_client_id)).requestEmail().
             build()
@@ -74,31 +74,31 @@ class SignupActivity : AppCompatActivity() {
         }
 
         //Initialize CallBackManager
-        callbackManager = CallbackManager.Factory.create()
+//      callbackManager = CallbackManager.Factory.create()
 
         //Facebook Button
-        binding.facebookButton.setOnClickListener {
-            LoginManager.getInstance().logInWithReadPermissions(
-                this,
-                listOf("email", "public_profile")
-            )
-
-            LoginManager.getInstance().registerCallback(callbackManager, object :
-                FacebookCallback<LoginResult> {
-                override fun onSuccess(loginResult: LoginResult) {
-                    Log.d("Success", "facebook:onSuccess:$loginResult")
-                    handleFacebookAccessToken(loginResult.accessToken)
-                }
-
-                override fun onCancel() {
-                    Log.d("OnCancel", "facebook:onCancel")
-                }
-
-                override fun onError(error: FacebookException) {
-                    Log.d("OnError", "facebook:onError", error)
-                }
-            })
-        }
+//        binding.facebookButton.setOnClickListener {
+//            LoginManager.getInstance().logInWithReadPermissions(
+//                this,
+//                listOf("email", "public_profile")
+//            )
+//
+////            LoginManager.getInstance().registerCallback(callbackManager, object :
+////                FacebookCallback<LoginResult> {
+////                override fun onSuccess(loginResult: LoginResult) {
+////                    Log.d("Success", "facebook:onSuccess:$loginResult")
+////                    handleFacebookAccessToken(loginResult.accessToken)
+////                }
+////
+////                override fun onCancel() {
+////                    Log.d("OnCancel", "facebook:onCancel")
+////                }
+////
+////                override fun onError(error: FacebookException) {
+////                    Log.d("OnError", "facebook:onError", error)
+////                }
+////            })
+//        }
 
         binding.signUpCreateButton.setOnClickListener{
             username = binding.username.text.toString().trim()
@@ -177,36 +177,35 @@ class SignupActivity : AppCompatActivity() {
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        // Pass the activity result back to the Facebook SDK
-        callbackManager.onActivityResult(requestCode, resultCode, data)
-    }
-
-    private fun handleFacebookAccessToken(token: AccessToken) {
-        Log.d("TAG", "handleFacebookAccessToken:$token")
-
-        val credential = getCredential(token.token)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d("TAG", "signInWithCredential:success")
-                    val user = auth.currentUser
-                    updateUI(user)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w("TAG", "signInWithCredential:failure", task.exception)
-                    Toast.makeText(
-                        baseContext,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                    updateUI(null)
-                }
-            }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        // Pass the activity result back to the Facebook SDK
+//        callbackManager.onActivityResult(requestCode, resultCode, data)
+//    }
+//    private fun handleFacebookAccessToken(token: AccessToken) {
+//        Log.d("TAG", "handleFacebookAccessToken:$token")
+//
+//        val credential = getCredential(token.token)
+//        auth.signInWithCredential(credential)
+//            .addOnCompleteListener(this) { task ->
+//                if (task.isSuccessful) {
+//                    // Sign in success, update UI with the signed-in user's information
+//                    Log.d("TAG", "signInWithCredential:success")
+//                    val user = auth.currentUser
+//                    updateUI(user)
+//                } else {
+//                    // If sign in fails, display a message to the user.
+//                    Log.w("TAG", "signInWithCredential:failure", task.exception)
+//                    Toast.makeText(
+//                        baseContext,
+//                        "Authentication failed.",
+//                        Toast.LENGTH_SHORT,
+//                    ).show()
+//                    updateUI(null)
+//                }
+//            }
+//    }
 
     private fun updateUI(user: FirebaseUser?) {
         if (user != null) {
