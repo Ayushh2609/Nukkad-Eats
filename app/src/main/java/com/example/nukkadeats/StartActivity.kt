@@ -29,17 +29,17 @@ class StartActivity : AppCompatActivity() {
 
     }
 
-    override fun onStart() {
-        super.onStart()
-        val currentUser = auth.currentUser
-        if(currentUser != null){
-            updateUi(currentUser)
-        }
-    }
-    private fun updateUi(user: FirebaseUser?) {
-        startActivity(Intent(this , MainActivity::class.java))
-        finish()
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        val currentUser = auth.currentUser
+//        if(currentUser != null){
+//            updateUi(currentUser)
+//        }
+//    }
+//    private fun updateUi(user: FirebaseUser?) {
+//        startActivity(Intent(this , MainActivity::class.java))
+//        finish()
+//    }
 
 
 }

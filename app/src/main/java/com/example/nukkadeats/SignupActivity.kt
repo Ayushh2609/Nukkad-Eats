@@ -73,6 +73,9 @@ class SignupActivity : AppCompatActivity() {
             launcher.launch(signInIntent)
         }
 
+        //Initialize CallBackManager
+        callbackManager = CallbackManager.Factory.create()
+
         //Facebook Button
         binding.facebookButton.setOnClickListener {
             LoginManager.getInstance().logInWithReadPermissions(
@@ -126,7 +129,7 @@ class SignupActivity : AppCompatActivity() {
                 val credential = GoogleAuthProvider.getCredential(account?.idToken , null)
 
                 auth.signInWithCredential(credential).addOnCompleteListener {authTask->
-                    if(task.isSuccessful){
+                    if(authTask.isSuccessful){
                         val user = auth.currentUser
                         Toast.makeText(this , "Welcome ${user?.displayName}" , Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this , MainActivity::class.java))
@@ -206,7 +209,13 @@ class SignupActivity : AppCompatActivity() {
     }
 
     private fun updateUI(user: FirebaseUser?) {
-        startActivity(Intent(this , MainActivity::class.java))
-        finish()
+        if (user != null) {
+            // User is successfully authenticated
+            startActivity(Intent(this , MainActivity::class.java))
+            finish()
+        } else {
+            // Authentication failed, keep the user on the current screen.
+            Log.d("TAG", "Authentication failed, not proceeding to MainActivity.")
+        }
     }
 }
