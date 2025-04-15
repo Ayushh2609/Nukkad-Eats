@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.nukkadeats.ItemDetailsActivity
 import com.example.nukkadeats.Modal.MenuItemModal
 import com.example.nukkadeats.databinding.MenuItemsBinding
@@ -44,6 +45,7 @@ class MenuAdapter(private val menuItems : List<MenuItemModal>,
 
         }
 
+        //Set data into recyclerview
         fun bind(position: Int) {
             val menuItem = menuItems[position]
             binding.apply {
@@ -52,6 +54,7 @@ class MenuAdapter(private val menuItems : List<MenuItemModal>,
                 menuItemPrice.text = menuItem.foodPrice
 
                 val uri = Uri.parse(menuItem.foodImageUrl)
+                Glide.with(context).load(uri).into(menuItemImage)
 
             }
         }
@@ -67,11 +70,6 @@ class MenuAdapter(private val menuItems : List<MenuItemModal>,
 
     override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
         holder.bind(position)
-    }
-
-    interface OnClickListener{
-        fun onItemClick(position: Int)
-
     }
 }
 
