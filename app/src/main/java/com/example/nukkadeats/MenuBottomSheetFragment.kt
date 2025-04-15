@@ -1,18 +1,27 @@
 package com.example.nukkadeats
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.nukkadeats.Modal.MenuItemModal
 import com.example.nukkadeats.adapters.MenuAdapter
 import com.example.nukkadeats.databinding.FragmentMenuBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 
 class MenuBottomSheetFragment : BottomSheetDialogFragment() {
 
-    private lateinit var binding : FragmentMenuBottomSheetBinding
+    private lateinit var binding: FragmentMenuBottomSheetBinding
+    private lateinit var database: FirebaseDatabase
+    private lateinit var menuItems: MutableList<MenuItemModal>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,32 +33,55 @@ class MenuBottomSheetFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = FragmentMenuBottomSheetBinding.inflate(inflater , container , false)
+        binding = FragmentMenuBottomSheetBinding.inflate(inflater, container, false)
 
-        val allMenuNames = listOf("Burger", "Pizza" , "Tatti", "Sydney Sweeney Kachi Ghani" , "Burger",
-            "Pizza",
-            "Sushi Platter",
-            "Pasta Carbonara",
-            "Chicken Curry",
-            "Caesar Salad",
-            "Chocolate Cake",
-            "Ice Cream Sundae")
-        val allMenuDescription = listOf("Very premium quality Gupta Burger" , "Pizza with Parmesan cheese(Dhong hai dhong)" , "Dish of the year" , "Dish Only available for developer(Ayush Paliwal)" , "Classic beef burger with all the fixings.",
-            "Large pepperoni pizza with extra cheese.",
-            "Assortment of fresh sushi rolls.",
-            "Creamy pasta with bacon and egg.",
-            "Spicy chicken curry with rice.",
-            "Crisp romaine lettuce with Caesar dressing.",
-            "Rich and decadent chocolate cake.",
-            "Vanilla ice cream with various toppings.")
-        val allMenuPrice = listOf("80", "120" , "1500", "999999" , "80", "120" , "1500", "999999" , "80", "120" , "1500", "999999")
-        val allMenuimage = listOf(R.drawable.burger , R.drawable.pizza , R.drawable.poop , R.drawable.sydney , R.drawable.burger , R.drawable.pizza , R.drawable.poop , R.drawable.sydney , R.drawable.burger , R.drawable.pizza , R.drawable.poop , R.drawable.sydney)
-
-        val adapter = MenuAdapter(ArrayList(allMenuNames) , ArrayList(allMenuDescription) , ArrayList(allMenuPrice) , ArrayList(allMenuimage) , requireContext())
-        binding.viewMenuRecycler.layoutManager = LinearLayoutManager(requireContext())
-        binding.viewMenuRecycler.adapter = adapter
+        retrieveMenuItems()
 
         return binding.root
     }
+
+    private fun retrieveMenuItems() {
+        database = FirebaseDatabase.getInstance()
+        val menuRef: DatabaseReference = database.reference.child("menu")
+
+        menuItems = mutableListOf()
+
+        menuRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (foodSnapshot in snapshot.children) {
+                    val menuItem = foodSnapshot.getValue(MenuItemModal::class.java)
+                    menuItem?.let {
+                        menuItems.add(it)
+                    }
+                    Log.d("adapter" , "Data received")
+
+                    //Once data receive, set to adapter
+                    setAdapter()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
+
+    }
+
+    private fun setAdapter() {
+
+        if (menuItems.isNotEmpty()) {
+
+            val adapter = MenuAdapter(menuItems, requireContext())
+            binding.viewMenuRecycler.layoutManager = LinearLayoutManager(requireContext())
+            binding.viewMenuRecycler.adapter = adapter
+
+            Log.d("adapter" , "Data Set")
+        }else{
+            Log.d("adapter" , "Data not Set")
+        }
+
+    }
+
 
 }
