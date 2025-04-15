@@ -1,13 +1,20 @@
 package com.example.nukkadeats
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
 import com.example.nukkadeats.databinding.ActivityItemDetailsBinding
 
 class ItemDetailsActivity : AppCompatActivity() {
+    private var foodName :String? = null
+    private var foodDescription :String? = null
+    private var foodIngredients :String? = null
+    private var foodImage :String? = null
+
     private lateinit var binding : ActivityItemDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,11 +30,19 @@ class ItemDetailsActivity : AppCompatActivity() {
             insets
         }
 
-        val foodName = intent.getStringExtra("MenuItemName")
-        val foodImage = intent.getIntExtra("MenuItemImage" , 0)
+        foodName = intent.getStringExtra("foodName")
+        foodDescription = intent.getStringExtra("foodDescription")
+        foodIngredients = intent.getStringExtra("foodIngredient")
+        foodImage = intent.getStringExtra("foodImageUrl")
+
+//        val foodPrice = intent.getStringExtra("foodPrice")
 
         binding.foodName.text = foodName
-        binding.foodDescriptionImage.setImageResource(foodImage)
+        binding.foodDescription.text = foodDescription
+        binding.foodIngredients.text = foodIngredients
+        Glide.with(this@ItemDetailsActivity).load(Uri.parse(foodImage)).into(binding.foodDescriptionImage)
+
+//        binding.foodName.text = foodPrice
 
         binding.backButton.setOnClickListener {
             finish()
