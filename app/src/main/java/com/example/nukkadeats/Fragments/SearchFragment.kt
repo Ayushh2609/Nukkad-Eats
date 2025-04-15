@@ -54,10 +54,10 @@ class SearchFragment : Fragment() {
 
         binding = FragmentSearchBinding.inflate(inflater, container , false)
         // Inflate the layout for this fragment
-
-        adapter = MenuAdapter(filteredMenuFoodName , filteredMenuFoodDescription , filteredMenuFoodPrice , filteredMenuFoodImage , requireContext())
-        binding.viewMenuRecycler.layoutManager = LinearLayoutManager(requireContext())
-        binding.viewMenuRecycler.adapter = adapter
+//
+//        adapter = MenuAdapter(filteredMenuFoodName , filteredMenuFoodDescription , filteredMenuFoodPrice , filteredMenuFoodImage , requireContext())
+//        binding.viewMenuRecycler.layoutManager = LinearLayoutManager(requireContext())
+//        binding.viewMenuRecycler.adapter = adapter
 
         setUpSearchView()
 
