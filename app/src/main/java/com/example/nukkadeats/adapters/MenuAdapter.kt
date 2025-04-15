@@ -2,6 +2,7 @@ package com.example.nukkadeats.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View.OnClickListener
 import android.view.ViewGroup
@@ -23,14 +24,6 @@ class MenuAdapter(private val menuItems : List<MenuItemModal>,
                 if(position != RecyclerView.NO_POSITION){
                     openDetailsActivity(position)
                 }
-
-                //setOnClickListener to open details
-
-                val intent = Intent(context , ItemDetailsActivity::class.java)
-//                intent.putExtra("MenuItemName" , menuItems.get(position))
-//                intent.putExtra("MenuItemImage" , menuItems.get(position))
-
-                context.startActivity(intent)
             }
         }
 
@@ -38,16 +31,27 @@ class MenuAdapter(private val menuItems : List<MenuItemModal>,
             val menuItem = menuItems[position]
 
             //An intent to open detail activity and pass data.
+            val intent = Intent(context , ItemDetailsActivity::class.java).apply {
+                putExtra("foodName" , menuItem.foodName)
+                putExtra("foodPrice" , menuItem.foodPrice)
+                putExtra("foodImageUrl" , menuItem.foodImageUrl)
+                putExtra("foodDescription" , menuItem.foodDescription)
+                putExtra("foodIngredients" , menuItem.foodIngredients)
+            }
+
+            //Start the ItemDetailed Activty
+            context.startActivity(intent)
 
         }
 
         fun bind(position: Int) {
+            val menuItem = menuItems[position]
             binding.apply {
-//                menuItemName.text = menuName[position]
-//                menuItemDescription.text = menuDescription[position]
-//                menuItemPrice.text = menuPrice[position]
-//                menuItemImage.setImageResource(menuImg[position])
+                menuItemName.text = menuItem.foodName
+                menuItemDescription.text = menuItem.foodDescription
+                menuItemPrice.text = menuItem.foodPrice
 
+                val uri = Uri.parse(menuItem.foodImageUrl)
 
             }
         }
