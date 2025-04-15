@@ -35,9 +35,9 @@ class MenuAdapter(private val menuItems : List<MenuItemModal>,
             val intent = Intent(context , ItemDetailsActivity::class.java).apply {
                 putExtra("foodName" , menuItem.foodName)
                 putExtra("foodPrice" , menuItem.foodPrice)
-                putExtra("foodImageUrl" , menuItem.foodImageUrl)
+                putExtra("foodImageUrl" , menuItem.foodImage)
                 putExtra("foodDescription" , menuItem.foodDescription)
-                putExtra("foodIngredients" , menuItem.foodIngredients)
+                putExtra("foodIngredient" , menuItem.foodIngredient)
             }
 
             //Start the ItemDetailed Activty
@@ -53,7 +53,7 @@ class MenuAdapter(private val menuItems : List<MenuItemModal>,
                 menuItemDescription.text = menuItem.foodDescription
                 menuItemPrice.text = menuItem.foodPrice
 
-                val uri = Uri.parse(menuItem.foodImageUrl)
+                val uri = Uri.parse(menuItem.foodImage)
                 Glide.with(context).load(uri).into(menuItemImage)
 
             }
