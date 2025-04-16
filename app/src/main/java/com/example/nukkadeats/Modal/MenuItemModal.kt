@@ -5,5 +5,5 @@ data class MenuItemModal(
     val foodPrice : String? = null,
     val foodDescription : String? = null,
     val foodImage : String? = null,
-    val foodIngredient : String? = null,
+    val foodIngredient : String? = null
 )
