@@ -75,7 +75,6 @@ class MenuBottomSheetFragment : BottomSheetDialogFragment() {
             val adapter = MenuAdapter(menuItems, requireContext())
             binding.viewMenuRecycler.layoutManager = LinearLayoutManager(requireContext())
             binding.viewMenuRecycler.adapter = adapter
-
             Log.d("adapter" , "Data Set")
         }else{
             Log.d("adapter" , "Data not Set")
