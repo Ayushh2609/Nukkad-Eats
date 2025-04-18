@@ -12,17 +12,20 @@ import com.example.nukkadeats.ItemDetailsActivity
 import com.example.nukkadeats.Modal.MenuItemModal
 import com.example.nukkadeats.databinding.MenuItemsBinding
 
-class MenuAdapter(private val menuItems : List<MenuItemModal>,
-                  private var context : Context) : RecyclerView.Adapter<MenuAdapter.MenuViewHolder>() {
+class MenuAdapter(
+    private val menuItems: List<MenuItemModal>,
+    private var context: Context
+) : RecyclerView.Adapter<MenuAdapter.MenuViewHolder>() {
 
-    private val itemClickListener : OnClickListener ?= null
+    private val itemClickListener: OnClickListener? = null
 
-    inner class MenuViewHolder(private val binding : MenuItemsBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MenuViewHolder(private val binding: MenuItemsBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        init{
-            binding.root.setOnClickListener{
+        init {
+            binding.root.setOnClickListener {
                 val position = adapterPosition
-                if(position != RecyclerView.NO_POSITION){
+                if (position != RecyclerView.NO_POSITION) {
                     openDetailsActivity(position)
                 }
             }
@@ -32,12 +35,12 @@ class MenuAdapter(private val menuItems : List<MenuItemModal>,
             val menuItem = menuItems[position]
 
             //An intent to open detail activity and pass data.
-            val intent = Intent(context , ItemDetailsActivity::class.java).apply {
-                putExtra("foodName" , menuItem.foodName)
-                putExtra("foodPrice" , menuItem.foodPrice)
-                putExtra("foodImageUrl" , menuItem.foodImage)
-                putExtra("foodDescription" , menuItem.foodDescription)
-                putExtra("foodIngredient" , menuItem.foodIngredient)
+            val intent = Intent(context, ItemDetailsActivity::class.java).apply {
+                putExtra("foodName", menuItem.foodName)
+                putExtra("foodPrice", menuItem.foodPrice)
+                putExtra("foodImageUrl", menuItem.foodImage)
+                putExtra("foodDescription", menuItem.foodDescription)
+                putExtra("foodIngredient", menuItem.foodIngredient)
             }
 
             //Start the ItemDetailed Activty
@@ -62,7 +65,7 @@ class MenuAdapter(private val menuItems : List<MenuItemModal>,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
-        val binding = MenuItemsBinding.inflate(LayoutInflater.from(parent.context) , parent , false)
+        val binding = MenuItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MenuViewHolder(binding)
     }
 
