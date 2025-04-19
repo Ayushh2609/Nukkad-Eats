@@ -11,7 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var  binding : ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +25,9 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavController.setupWithNavController(NavController)
 
-        binding.notificationBtn.setOnClickListener{
+        binding.notificationBtn.setOnClickListener {
             val BottomSheetDialog = notification_bottom()
-            BottomSheetDialog.show(supportFragmentManager , "Test")
+            BottomSheetDialog.show(supportFragmentManager, "Test")
         }
     }
 }
