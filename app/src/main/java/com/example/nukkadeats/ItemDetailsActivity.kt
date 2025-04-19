@@ -10,12 +10,12 @@ import com.bumptech.glide.Glide
 import com.example.nukkadeats.databinding.ActivityItemDetailsBinding
 
 class ItemDetailsActivity : AppCompatActivity() {
-    private var foodName :String? = null
-    private var foodDescription :String? = null
-    private var foodIngredients :String? = null
-    private var foodImage :String? = null
+    private var foodName: String? = null
+    private var foodDescription: String? = null
+    private var foodIngredients: String? = null
+    private var foodImage: String? = null
 
-    private lateinit var binding : ActivityItemDetailsBinding
+    private lateinit var binding: ActivityItemDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,8 @@ class ItemDetailsActivity : AppCompatActivity() {
         binding.foodName.text = foodName
         binding.foodDescription.text = foodDescription
         binding.foodIngredients.text = foodIngredients
-        Glide.with(this@ItemDetailsActivity).load(Uri.parse(foodImage)).into(binding.foodDescriptionImage)
+        Glide.with(this@ItemDetailsActivity).load(Uri.parse(foodImage))
+            .into(binding.foodDescriptionImage)
 
 //        binding.foodName.text = foodPrice
 
