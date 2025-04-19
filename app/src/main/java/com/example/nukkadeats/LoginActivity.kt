@@ -23,16 +23,17 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var email : String
-    private  lateinit var password : String
-    private  lateinit var auth : FirebaseAuth
-    private  lateinit var database : DatabaseReference
-    private lateinit var googleSignInClient : GoogleSignInClient
+    private lateinit var email: String
+    private lateinit var password: String
+    private lateinit var auth: FirebaseAuth
+    private lateinit var database: DatabaseReference
+    private lateinit var googleSignInClient: GoogleSignInClient
     private val callbackManager: CallbackManager = CallbackManager.Factory.create()
 
-private val binding : ActivityLoginBinding by lazy {
-    ActivityLoginBinding.inflate(layoutInflater)
-}
+    private val binding: ActivityLoginBinding by lazy {
+        ActivityLoginBinding.inflate(layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -47,20 +48,19 @@ private val binding : ActivityLoginBinding by lazy {
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.Default_web_client_id)).requestEmail().build()
 
-        googleSignInClient = GoogleSignIn.getClient(this , googleSignInOptions)
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
 
         binding.loginBtn.setOnClickListener {
 
             email = binding.emailId.text.toString().trim()
             password = binding.passwd.text.toString().trim()
 
-            if(email.isBlank()){
+            if (email.isBlank()) {
                 binding.emailId.error = "Please provide email"
             }
-            if(password.isBlank()){
+            if (password.isBlank()) {
                 binding.passwd.error = "Please enter the password"
-            }
-            else{
+            } else {
                 createUser()
             }
         }
@@ -70,45 +70,48 @@ private val binding : ActivityLoginBinding by lazy {
             launcher.launch(signinIntent)
         }
 
-        binding.dontHaveAccount.setOnClickListener{
-            val intent = Intent(this , SignupActivity::class.java)
+        binding.dontHaveAccount.setOnClickListener {
+            val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
         }
 
     }
 
-    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
-        if(result.resultCode == Activity.RESULT_OK){
-            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            if(task.isSuccessful){
-                val account : GoogleSignInAccount? = task.result
-                val credential = GoogleAuthProvider.getCredential(account?.idToken , null)
+    private val launcher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                if (task.isSuccessful) {
+                    val account: GoogleSignInAccount? = task.result
+                    val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
 
-                auth.signInWithCredential(credential).addOnCompleteListener {authTask ->
-                    if(authTask.isSuccessful){
-                        val user = auth.currentUser
-                        Toast.makeText(this , "Welcome ${user?.displayName}" , Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this , MainActivity::class.java))
-                        finish()
-                    }else{
-                        Toast.makeText(this , "Account creation failed" , Toast.LENGTH_SHORT).show()
+                    auth.signInWithCredential(credential).addOnCompleteListener { authTask ->
+                        if (authTask.isSuccessful) {
+                            val user = auth.currentUser
+                            Toast.makeText(this, "Welcome ${user?.displayName}", Toast.LENGTH_SHORT)
+                                .show()
+                            startActivity(Intent(this, MainActivity::class.java))
+                            finish()
+                        } else {
+                            Toast.makeText(this, "Account creation failed", Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     }
+                } else {
+                    Toast.makeText(this, "Account creation failed", Toast.LENGTH_LONG).show()
                 }
-            }else{
-                Toast.makeText(this , "Account creation failed" , Toast.LENGTH_LONG).show()
             }
         }
-    }
 
     private fun createUser() {
-        auth.signInWithEmailAndPassword(email , password).addOnCompleteListener {task ->
-            if(task.isSuccessful){
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
                 val user = auth.currentUser
-                Toast.makeText(this , "Welcome ${user?.displayName}" , Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Welcome ${user?.displayName}", Toast.LENGTH_SHORT).show()
                 updateUi(user)
-            }else{
-                Toast.makeText(this , "User Not Found" , Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this , SignupActivity::class.java))
+            } else {
+                Toast.makeText(this, "User Not Found", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, SignupActivity::class.java))
             }
         }
     }
@@ -116,13 +119,13 @@ private val binding : ActivityLoginBinding by lazy {
     override fun onStart() {
         super.onStart()
         val currentUser = auth.currentUser
-        if(currentUser != null){
+        if (currentUser != null) {
             updateUi(currentUser)
         }
     }
 
     private fun updateUi(user: FirebaseUser?) {
-        startActivity(Intent(this , MainActivity::class.java))
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 }
