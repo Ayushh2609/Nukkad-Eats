@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseUser
 
 class StartActivity : AppCompatActivity() {
 
-    private lateinit var auth : FirebaseAuth
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,8 +21,8 @@ class StartActivity : AppCompatActivity() {
 
         val nextButton = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.nextButton)
 
-        nextButton.setOnClickListener{
-            val intent = Intent(this , LoginActivity::class.java)
+        nextButton.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
