@@ -32,17 +32,18 @@ import com.google.firebase.ktx.Firebase
 
 class SignupActivity : AppCompatActivity() {
 
-    private lateinit var username : String
-    private lateinit var email : String
-    private lateinit var password : String
-    private lateinit var auth : FirebaseAuth
-    private lateinit var database : DatabaseReference
-    private lateinit var googleSignInClient : GoogleSignInClient
+    private lateinit var username: String
+    private lateinit var email: String
+    private lateinit var password: String
+    private lateinit var auth: FirebaseAuth
+    private lateinit var database: DatabaseReference
+    private lateinit var googleSignInClient: GoogleSignInClient
 //    private lateinit var callbackManager : CallbackManager
 
-    private val binding : ActivitySignupBinding by lazy{
+    private val binding: ActivitySignupBinding by lazy {
         ActivitySignupBinding.inflate(layoutInflater)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -56,14 +57,13 @@ class SignupActivity : AppCompatActivity() {
 
         //Initialize Google Signin Options
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.Default_web_client_id)).requestEmail().
-            build()
+            .requestIdToken(getString(R.string.Default_web_client_id)).requestEmail().build()
 
         //Google Initialize
-        googleSignInClient = GoogleSignIn.getClient(this , googleSignInOptions)
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
 
         //Already have account
-        binding.alreadyHaveAccount.setOnClickListener{
+        binding.alreadyHaveAccount.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 
@@ -100,64 +100,66 @@ class SignupActivity : AppCompatActivity() {
 ////            })
 //        }
 
-        binding.signUpCreateButton.setOnClickListener{
+        binding.signUpCreateButton.setOnClickListener {
             username = binding.username.text.toString().trim()
             email = binding.emailId.text.toString().trim()
             password = binding.passwd.text.toString().trim()
 
-            if(username.isBlank()){
+            if (username.isBlank()) {
                 binding.username.error = "Please provide the username"
             }
-            if(email.isBlank()){
+            if (email.isBlank()) {
                 binding.emailId.error = "Please provide the email"
             }
-            if(password.isBlank()){
+            if (password.isBlank()) {
                 binding.passwd.error = "Please enter the password"
-            }
-            else{
-                createAccount(email , password)
+            } else {
+                createAccount(email, password)
             }
         }
     }
 
     //Launcher for Google
-    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result ->
-        if(result.resultCode == Activity.RESULT_OK){
-            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            if(task.isSuccessful){
-                val account : GoogleSignInAccount? = task.result
-                val credential = GoogleAuthProvider.getCredential(account?.idToken , null)
+    private val launcher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                if (task.isSuccessful) {
+                    val account: GoogleSignInAccount? = task.result
+                    val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
 
-                auth.signInWithCredential(credential).addOnCompleteListener {authTask->
-                    if(authTask.isSuccessful){
-                        val user = auth.currentUser
-                        Toast.makeText(this , "Welcome ${user?.displayName}" , Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this , MainActivity::class.java))
-                        finish()
-                    }else{
-                        Toast.makeText(this , "Account creation failed" , Toast.LENGTH_SHORT).show()
-                        Log.d("AccountFail" , "createAccount: ${task.exception}")
+                    auth.signInWithCredential(credential).addOnCompleteListener { authTask ->
+                        if (authTask.isSuccessful) {
+                            val user = auth.currentUser
+                            Toast.makeText(this, "Welcome ${user?.displayName}", Toast.LENGTH_SHORT)
+                                .show()
+                            startActivity(Intent(this, MainActivity::class.java))
+                            finish()
+                        } else {
+                            Toast.makeText(this, "Account creation failed", Toast.LENGTH_SHORT)
+                                .show()
+                            Log.d("AccountFail", "createAccount: ${task.exception}")
+                        }
                     }
+                } else {
+                    Toast.makeText(this, "Account creation failed", Toast.LENGTH_LONG).show()
                 }
-            }else{
-                Toast.makeText(this , "Account creation failed" , Toast.LENGTH_LONG).show()
             }
+
         }
 
-    }
-
     //Account creation with Email and Password
-    private fun createAccount(email : String , password : String) {
-        auth.createUserWithEmailAndPassword(email , password).addOnCompleteListener { task ->
+    private fun createAccount(email: String, password: String) {
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
 
-            if(task.isSuccessful){
+            if (task.isSuccessful) {
                 saveUserData()
-                Toast.makeText(this , "Account creation successful" , Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this , LoginActivity::class.java))
+                Toast.makeText(this, "Account creation successful", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, LoginActivity::class.java))
                 finish()
-            }else{
-                Toast.makeText(this , "Account creation failed" , Toast.LENGTH_LONG).show()
-                Log.d("AccountFail" , "createAccount: ${task.exception}")
+            } else {
+                Toast.makeText(this, "Account creation failed", Toast.LENGTH_LONG).show()
+                Log.d("AccountFail", "createAccount: ${task.exception}")
             }
         }
     }
@@ -169,7 +171,7 @@ class SignupActivity : AppCompatActivity() {
         email = binding.emailId.text.toString().trim()
         password = binding.passwd.text.toString().trim()
 
-        val user = UserModal(username , email  , password)
+        val user = UserModal(username, email, password)
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
 
         //Saving data to Users node in Firebase Database
@@ -210,7 +212,7 @@ class SignupActivity : AppCompatActivity() {
     private fun updateUI(user: FirebaseUser?) {
         if (user != null) {
             // User is successfully authenticated
-            startActivity(Intent(this , MainActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         } else {
             // Authentication failed, keep the user on the current screen.
