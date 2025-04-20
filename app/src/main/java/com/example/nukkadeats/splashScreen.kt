@@ -7,7 +7,7 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 
-class  splashScreen : AppCompatActivity() {
+class splashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -19,7 +19,7 @@ class  splashScreen : AppCompatActivity() {
             val intent = Intent(this, StartActivity::class.java)
             startActivity(intent)
             finish()
-        },1000)
+        }, 1000)
 
     }
 }
