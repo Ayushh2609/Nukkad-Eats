@@ -12,7 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class OrderPlaced : BottomSheetDialogFragment() {
 
-    private lateinit var binding : FragmentOrderPlacedBinding
+    private lateinit var binding: FragmentOrderPlacedBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,10 +24,10 @@ class OrderPlaced : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = FragmentOrderPlacedBinding.inflate(inflater , container , false)
+        binding = FragmentOrderPlacedBinding.inflate(inflater, container, false)
 
         binding.goToHome.setOnClickListener {
-            val intent = Intent(requireContext() , MainActivity::class.java).apply {
+            val intent = Intent(requireContext(), MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
             startActivity(intent)
