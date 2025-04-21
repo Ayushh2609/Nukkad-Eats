@@ -53,11 +53,12 @@ class MenuBottomSheetFragment : BottomSheetDialogFragment() {
                     menuItem?.let {
                         menuItems.add(it)
                     }
+
+                }
                     Log.d("adapter", "Data received")
 
                     //Once data receive, set to adapter
                     setAdapter()
-                }
             }
 
             override fun onCancelled(error: DatabaseError) {
