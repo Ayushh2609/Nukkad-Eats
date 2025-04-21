@@ -3,6 +3,7 @@ package com.example.nukkadeats.Fragments
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -14,6 +15,7 @@ import com.denzcoskun.imageslider.models.SlideModel
 import com.example.nukkadeats.MenuBottomSheetFragment
 import com.example.nukkadeats.Modal.MenuItemModal
 import com.example.nukkadeats.R
+import com.example.nukkadeats.adapters.MenuAdapter
 import com.example.nukkadeats.adapters.Popular_Item_Recycler_Adapter
 import com.example.nukkadeats.databinding.FragmentHomeBinding
 import com.google.firebase.database.DataSnapshot
@@ -47,6 +49,9 @@ class HomeFragment : Fragment() {
             bottonSheetDialog.show(parentFragmentManager , "Test")
         }
 
+        //Retrieve and display popular menu item
+        retrieveAndDisplayPopularMenuItem()
+
         return binding.root
     }
 
@@ -78,7 +83,17 @@ class HomeFragment : Fragment() {
             private fun randomPopularItem() {
                 //Create as shuffled list of Menu Item
                 val index = menuItems.indices.toList().shuffled()
+                val numItemToShow = 6
+                val subsetMenuItems = index.take(numItemToShow).map{menuItems[it]}
+
+                setPopularItemsAdapter(subsetMenuItems)
             }
+
+    private fun setPopularItemsAdapter(subsetMenuItems: List<MenuItemModal>) {
+        val adapter = MenuAdapter(subsetMenuItems , requireContext())
+        binding.popularRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.popularRecyclerView.adapter = adapter
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -104,15 +119,6 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext() , itemMessage , Toast.LENGTH_SHORT).show()
             }
         })
-
-        val foodNames = listOf("Burger", "Pizza" , "Tatti", "Sydney Sweeney Kachi Ghani")
-        val foodPrice = listOf("80", "120" , "1500", "999999")
-        val foodImage= listOf(R.drawable.burger , R.drawable.pizza , R.drawable.poop , R.drawable.sydney)
-        val foodDescriptions = listOf("Very premium quality Gupta Burger" , "Pizza with Parmesan cheese(Dhong hai dhong)" , "Dish of the year" , "Dish Only available for developer(Ayush Paliwal)")
-
-        val adapter = Popular_Item_Recycler_Adapter(foodNames , foodPrice , foodImage , foodDescriptions , requireContext())
-        binding.popularRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.popularRecyclerView.adapter = adapter
     }
 
 }
