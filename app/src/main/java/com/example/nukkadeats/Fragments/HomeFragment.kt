@@ -12,13 +12,21 @@ import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
 import com.example.nukkadeats.MenuBottomSheetFragment
+import com.example.nukkadeats.Modal.MenuItemModal
 import com.example.nukkadeats.R
 import com.example.nukkadeats.adapters.Popular_Item_Recycler_Adapter
 import com.example.nukkadeats.databinding.FragmentHomeBinding
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding : FragmentHomeBinding
+    private lateinit var database : FirebaseDatabase
+    private lateinit var menuItems : MutableList<MenuItemModal>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +49,36 @@ class HomeFragment : Fragment() {
 
         return binding.root
     }
+
+    private fun retrieveAndDisplayPopularMenuItem() {
+        // Get the database reference
+        database = FirebaseDatabase.getInstance()
+        val foodref : DatabaseReference = database.reference.child("menu")
+        menuItems = mutableListOf()
+
+        // Retrieve database
+        foodref.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(foodSnapshot in snapshot.children){
+                    val menuItem = foodSnapshot.getValue(MenuItemModal::class.java)
+                    menuItem?.let{menuItems.add(it)}
+                }
+                //Display the random popular item
+                randomPopularItem()
+            }
+
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
+    }
+            private fun randomPopularItem() {
+                //Create as shuffled list of Menu Item
+                val index = menuItems.indices.toList().shuffled()
+            }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
