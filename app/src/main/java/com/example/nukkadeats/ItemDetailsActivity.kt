@@ -18,9 +18,9 @@ class ItemDetailsActivity : AppCompatActivity() {
     private var foodDescription: String? = null
     private var foodIngredients: String? = null
     private var foodImage: String? = null
-    private var foodPrice : String? = null
+    private var foodPrice: String? = null
 
-    private lateinit var auth :FirebaseAuth
+    private lateinit var auth: FirebaseAuth
 
     private lateinit var binding: ActivityItemDetailsBinding
 
@@ -36,6 +36,9 @@ class ItemDetailsActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        //Initializing Auth
+        auth = FirebaseAuth.getInstance()
 
         foodName = intent.getStringExtra("foodName")
         foodDescription = intent.getStringExtra("foodDescription")
@@ -64,14 +67,24 @@ class ItemDetailsActivity : AppCompatActivity() {
 
     private fun addItemToCart() {
         val database = FirebaseDatabase.getInstance().reference
-        val userId = auth.currentUser?.uid?:""
+        val userId = auth.currentUser?.uid ?: ""
 
         //Create a cart Item Object
-        val cartItems = CartItems(foodName.toString() , foodPrice.toString() , foodImage.toString() , foodDescription.toString() , 1)
+        val cartItems = CartItems(
+            foodName.toString(),
+            foodPrice.toString(),
+            foodImage.toString(),
+            foodDescription.toString(),
+            1
+        )
 
         database.child("users").child(userId).child("cartItems").push().setValue(cartItems)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Items added to cart successfully", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener {
+                Toast.makeText(this, "Items added to cart Failed", Toast.LENGTH_SHORT).show()
+            }
 
-        Toast.makeText(this , "Items added to cart successfully" , Toast.LENGTH_SHORT).show()
 
     }
 }
