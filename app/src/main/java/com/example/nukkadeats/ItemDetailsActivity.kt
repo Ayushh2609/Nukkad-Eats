@@ -81,8 +81,10 @@ class ItemDetailsActivity : AppCompatActivity() {
         database.child("users").child(userId).child("cartItems").push().setValue(cartItems)
             .addOnSuccessListener {
                 Toast.makeText(this, "Items added to cart successfully", Toast.LENGTH_SHORT).show()
+                finish()
             }.addOnFailureListener {
                 Toast.makeText(this, "Items added to cart Failed", Toast.LENGTH_SHORT).show()
+                finish()
             }
 
 
