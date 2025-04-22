@@ -8,12 +8,16 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.example.nukkadeats.databinding.ActivityItemDetailsBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class ItemDetailsActivity : AppCompatActivity() {
     private var foodName: String? = null
     private var foodDescription: String? = null
     private var foodIngredients: String? = null
     private var foodImage: String? = null
+
+    private lateinit var auth :FirebaseAuth
 
     private lateinit var binding: ActivityItemDetailsBinding
 
@@ -50,7 +54,16 @@ class ItemDetailsActivity : AppCompatActivity() {
         }
 
         binding.addToCartBtn.setOnClickListener {
+            addItemToCart()
 
         }
+    }
+
+    private fun addItemToCart() {
+        val database = FirebaseDatabase.getInstance().reference
+        val uderId = auth.currentUser?.uid?:""
+
+        //Create a cart Item Object
+
     }
 }
