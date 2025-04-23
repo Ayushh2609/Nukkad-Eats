@@ -3,7 +3,6 @@ package com.example.nukkadeats.Fragments
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -16,7 +15,6 @@ import com.example.nukkadeats.MenuBottomSheetFragment
 import com.example.nukkadeats.Modal.MenuItemModal
 import com.example.nukkadeats.R
 import com.example.nukkadeats.adapters.MenuAdapter
-import com.example.nukkadeats.adapters.Popular_Item_Recycler_Adapter
 import com.example.nukkadeats.databinding.FragmentHomeBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -74,7 +72,6 @@ class HomeFragment : Fragment() {
 
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
 
         })
