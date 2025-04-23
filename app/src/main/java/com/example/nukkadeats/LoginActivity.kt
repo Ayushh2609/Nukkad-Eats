@@ -93,7 +93,12 @@ class LoginActivity : AppCompatActivity() {
                             val user = auth.currentUser
                             Toast.makeText(this, "Welcome ${user?.displayName}", Toast.LENGTH_SHORT)
                                 .show()
-                            startActivity(Intent(this, MainActivity::class.java))
+
+                            //Saving User data to Firebase
+                            saveUserdata(user?.displayName , user?.email , null , "Google")
+
+                            //Successfully Sign in with Google
+                            updateUi(authTask.result?.user)
                             finish()
                         } else {
                             Toast.makeText(this, "Account creation failed", Toast.LENGTH_SHORT)
