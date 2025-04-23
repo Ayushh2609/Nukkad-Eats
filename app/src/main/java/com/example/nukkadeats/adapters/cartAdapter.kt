@@ -16,7 +16,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class cartAdapter(
-    private val context : Context,
+    private val context: Context,
     val cartItem: MutableList<String>,
     val cartPrice: MutableList<String>,
     val cartImage: MutableList<String>,
@@ -83,9 +83,9 @@ class cartAdapter(
 
         private fun deleteQuantity(position: Int) {
             val positionRetrieve = position
-            getUniqueKeyAtPosition(positionRetrieve){uniqueKey ->
-                if(uniqueKey != null){
-                    removeItem(position , uniqueKey)
+            getUniqueKeyAtPosition(positionRetrieve) { uniqueKey ->
+                if (uniqueKey != null) {
+                    removeItem(position, uniqueKey)
                 }
             }
         }
@@ -114,31 +114,32 @@ class cartAdapter(
     }
 
     private fun removeItem(position: Int, uniqueKey: String) {
-        if(uniqueKey != null){
+        if (uniqueKey != null) {
             cartItemsReference.child(uniqueKey).removeValue().addOnSuccessListener {
                 cartItem.removeAt(position)
                 cartImage.removeAt(position)
                 cartPrice.removeAt(position)
 
-                Toast.makeText(context , "Item Removed" , Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Item Removed", Toast.LENGTH_SHORT).show()
 
                 // Update ItemQuantities
-                itemQuantity = itemQuantity.filterIndexed{index, i -> index != position }.toIntArray()
+                itemQuantity =
+                    itemQuantity.filterIndexed { index, i -> index != position }.toIntArray()
                 notifyItemRemoved(position)
-                notifyItemRangeChanged(position , cartItem.size)
+                notifyItemRangeChanged(position, cartItem.size)
             }.addOnFailureListener {
-                Toast.makeText(context , "Failed to delete" , Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun getUniqueKeyAtPosition(positionRetrieve: Int , onComplete:(String?) -> Unit ) {
-        cartItemsReference.addListenerForSingleValueEvent( object : ValueEventListener{
+    private fun getUniqueKeyAtPosition(positionRetrieve: Int, onComplete: (String?) -> Unit) {
+        cartItemsReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                var uniqueKey : String? = null
+                var uniqueKey: String? = null
 
-                snapshot.children.forEachIndexed{index, dataSnapshot ->
-                    if(index == positionRetrieve){
+                snapshot.children.forEachIndexed { index, dataSnapshot ->
+                    if (index == positionRetrieve) {
                         uniqueKey = dataSnapshot.key
                         return@forEachIndexed
                     }
