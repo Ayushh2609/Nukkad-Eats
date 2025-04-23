@@ -4,12 +4,16 @@ import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.nukkadeats.databinding.CartItemsBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class cartAdapter(
     private val context : Context,
@@ -78,11 +82,12 @@ class cartAdapter(
         }
 
         private fun deleteQuantity(position: Int) {
-            cartItem.removeAt(position)
-            cartPrice.removeAt(position)
-            cartImage.removeAt(position)
-            notifyItemRemoved(position)
-            notifyItemRangeChanged(position, cartItem.size)
+            val positionRetrieve = position
+            getUniqueKeyAtPosition(positionRetrieve){uniqueKey ->
+                if(uniqueKey != null){
+                    removeItem(position , uniqueKey)
+                }
+            }
         }
 
         fun increaseQuantity(position: Int) {
@@ -106,6 +111,46 @@ class cartAdapter(
         }
 
 
+    }
+
+    private fun removeItem(position: Int, uniqueKey: String) {
+        if(uniqueKey != null){
+            cartItemsReference.child(uniqueKey).removeValue().addOnSuccessListener {
+                cartItem.removeAt(position)
+                cartImage.removeAt(position)
+                cartPrice.removeAt(position)
+
+                Toast.makeText(context , "Item Removed" , Toast.LENGTH_SHORT).show()
+
+                // Update ItemQuantities
+                itemQuantity = itemQuantity.filterIndexed{index, i -> index != position }.toIntArray()
+                notifyItemRemoved(position)
+                notifyItemRangeChanged(position , cartItem.size)
+            }.addOnFailureListener {
+                Toast.makeText(context , "Failed to delete" , Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun getUniqueKeyAtPosition(positionRetrieve: Int , onComplete:(String?) -> Unit ) {
+        cartItemsReference.addListenerForSingleValueEvent( object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var uniqueKey : String? = null
+
+                snapshot.children.forEachIndexed{index, dataSnapshot ->
+                    if(index == positionRetrieve){
+                        uniqueKey = dataSnapshot.key
+                        return@forEachIndexed
+                    }
+                }
+                onComplete(uniqueKey)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): cartViewHolder {
