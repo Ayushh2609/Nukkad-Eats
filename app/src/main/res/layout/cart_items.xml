@@ -43,12 +43,12 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="TextView"
-                app:layout_constraintBottom_toTopOf="@+id/descriptionCartItem"
+                app:layout_constraintBottom_toTopOf="@+id/cartItemPrice"
                 app:layout_constraintStart_toEndOf="@+id/foodImage"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/descriptionCartItem"
+                android:id="@+id/cartItemPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
