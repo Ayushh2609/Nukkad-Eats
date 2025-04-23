@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.nukkadeats.Modal.UserModal
 import com.example.nukkadeats.databinding.ActivityLoginBinding
 import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -45,13 +46,8 @@ class LoginActivity : AppCompatActivity() {
         //Initialize Firebase Database
         database = Firebase.database.reference
 
-        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.Default_web_client_id)).requestEmail().build()
-
-        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
 
         binding.loginBtn.setOnClickListener {
-
             email = binding.emailId.text.toString().trim()
             password = binding.passwd.text.toString().trim()
 
@@ -64,6 +60,13 @@ class LoginActivity : AppCompatActivity() {
                 createUser()
             }
         }
+
+
+        //Google SignIn Options Initialize
+        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.Default_web_client_id)).requestEmail().build()
+
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
 
         binding.googleButton.setOnClickListener {
             val signinIntent = googleSignInClient.signInIntent
@@ -114,6 +117,18 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(Intent(this, SignupActivity::class.java))
             }
         }
+    }
+
+    //Saving data through Google and facebook
+    private fun saveUserdata(name : String? , email : String? , password : String? , loginMethod : String?){
+
+        val userid = FirebaseAuth.getInstance().currentUser?.uid?: return
+        val user = UserModal(name = name , email = email , password = password , loginMethod = loginMethod)
+
+        userid?.let {
+            database.child("users").child(it).setValue(user)
+        }
+
     }
 
     override fun onStart() {
