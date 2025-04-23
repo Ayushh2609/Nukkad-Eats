@@ -45,7 +45,7 @@ class ItemDetailsActivity : AppCompatActivity() {
         foodIngredients = intent.getStringExtra("foodIngredient")
         foodImage = intent.getStringExtra("foodImageUrl")
 
-//        val foodPrice = intent.getStringExtra("foodPrice")
+        foodPrice = intent.getStringExtra("foodPrice")
 
         binding.foodName.text = foodName
         binding.foodDescription.text = foodDescription
