@@ -133,7 +133,12 @@ class SignupActivity : AppCompatActivity() {
                             val user = auth.currentUser
                             Toast.makeText(this, "Welcome ${user?.displayName}", Toast.LENGTH_SHORT)
                                 .show()
-                            startActivity(Intent(this, MainActivity::class.java))
+
+                            //Saving data to firebase database
+                            saveUserData(user?.displayName , user?.email , null , "Google")
+
+                            //Moving to Next Activity
+                            updateUI(authTask.result?.user)
                             finish()
                         } else {
                             Toast.makeText(this, "Account creation failed", Toast.LENGTH_SHORT)
@@ -161,6 +166,16 @@ class SignupActivity : AppCompatActivity() {
                 Toast.makeText(this, "Account creation failed", Toast.LENGTH_LONG).show()
                 Log.d("AccountFail", "createAccount: ${task.exception}")
             }
+        }
+    }
+
+    //Saving user data when sign in with Google or facebook
+    private fun saveUserData(name : String? , email : String? , password : String? , loginMethod : String?){
+        val userId = FirebaseAuth.getInstance().currentUser?.uid?: return
+        val user = UserModal(name = name , email = email , password = password , loginMethod = loginMethod)
+
+        userId?.let{
+            database.child("users").child(it).setValue(user)
         }
     }
 
