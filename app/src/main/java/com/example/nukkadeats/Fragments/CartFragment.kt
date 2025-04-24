@@ -6,16 +6,37 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nukkadeats.CartProceed
+import com.example.nukkadeats.Modal.CartItems
 import com.example.nukkadeats.OrderPlaced
 import com.example.nukkadeats.R
 import com.example.nukkadeats.adapters.cartAdapter
 import com.example.nukkadeats.databinding.FragmentCartBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class CartFragment : Fragment() {
-    private lateinit var binding : FragmentCartBinding
+    private lateinit var binding: FragmentCartBinding
+
+    private lateinit var auth: FirebaseAuth
+    private lateinit var database: FirebaseDatabase
+    private lateinit var foodNames: MutableList<String>
+    private lateinit var foodPrices: MutableList<String>
+    private lateinit var foodImageUrl: MutableList<String>
+    private lateinit var foodDescriptions: MutableList<String>
+    private lateinit var foodIngredients: MutableList<String>
+    private lateinit var quantity: MutableList<Int>
+    private lateinit var cartAdapter: cartAdapter
+    private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,24 +47,71 @@ class CartFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCartBinding.inflate(inflater , container , false)
+        binding = FragmentCartBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
 
-        val foodNames = listOf("Burger", "Pizza" , "Tatti", "Sydney Sweeney Kachi Ghani")
-        val foodPrice = listOf("80", "120" , "1500", "999999")
-        val foodImage= listOf(R.drawable.burger , R.drawable.pizza , R.drawable.poop , R.drawable.sydney)
+        //Initializing Auth
+        auth = FirebaseAuth.getInstance()
 
-        val adapter = cartAdapter(ArrayList(foodNames) , ArrayList(foodPrice) , ArrayList(foodImage))
-        binding.cartRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.cartRecyclerView.adapter = adapter
+        retrieveCartItems()
 
 
         binding.proceedBtn.setOnClickListener {
-            val intent = Intent(requireContext() , CartProceed::class.java)
+            val intent = Intent(requireContext(), CartProceed::class.java)
             startActivity(intent)
         }
 
         return binding.root
+    }
+
+    private fun retrieveCartItems() {
+        database = FirebaseDatabase.getInstance()
+        userId = auth.currentUser?.uid ?: ""
+
+        val foodReference: DatabaseReference =
+            database.reference.child("users").child(userId).child("cartItems")
+
+        //List to store cart items
+        foodNames = mutableListOf()
+        foodPrices = mutableListOf()
+        foodImageUrl = mutableListOf()
+        foodDescriptions = mutableListOf()
+        foodIngredients = mutableListOf()
+        quantity = mutableListOf()
+
+        foodReference.addListenerForSingleValueEvent(object : ValueEventListener {
+
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                for (foodSnapshot in snapshot.children) {
+
+                    //Get the cart items object from the Child node
+                    val cartItems = foodSnapshot.getValue(CartItems::class.java)
+
+                    cartItems?.foodName?.let{ foodNames.add(it)}
+                    cartItems?.foodPrice?.let{ foodPrices.add(it)}
+                    cartItems?.foodDescription?.let{ foodDescriptions.add(it)}
+                    cartItems?.foodImage?.let{ foodImageUrl.add(it)}
+                    cartItems?.foodQuantity?.let{ quantity.add(it)}
+                    cartItems?.foodIngredient?.let{ foodIngredients.add(it)}
+
+                }
+
+                setAdapter()
+            }
+
+            private fun setAdapter() {
+                val adapter = cartAdapter(requireContext() , foodNames, foodPrices, foodImageUrl, foodDescriptions, foodIngredients, quantity)
+
+                binding.cartRecyclerView.layoutManager = LinearLayoutManager(requireContext() , LinearLayoutManager.VERTICAL, false)
+                binding.cartRecyclerView.adapter = adapter
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext() , "Data Not Fetched" , Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
 }

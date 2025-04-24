@@ -21,6 +21,7 @@ class cartAdapter(
     val cartPrice: MutableList<String>,
     val cartImage: MutableList<String>,
     private val cartDescription: MutableList<String>,
+    private val cartIngredient: MutableList<String>,
     private val cartQuantity: MutableList<Int>
 
 ) : RecyclerView.Adapter<cartAdapter.cartViewHolder>() {
@@ -119,12 +120,15 @@ class cartAdapter(
                 cartItem.removeAt(position)
                 cartImage.removeAt(position)
                 cartPrice.removeAt(position)
+                cartDescription.removeAt(position)
+                cartIngredient.removeAt(position)
+                cartQuantity.removeAt(position)
 
                 Toast.makeText(context, "Item Removed", Toast.LENGTH_SHORT).show()
 
                 // Update ItemQuantities
                 itemQuantity =
-                    itemQuantity.filterIndexed { index, i -> index != position }.toIntArray()
+                    itemQuantity.filterIndexed { index, _ -> index != position }.toIntArray()
                 notifyItemRemoved(position)
                 notifyItemRangeChanged(position, cartItem.size)
             }.addOnFailureListener {
