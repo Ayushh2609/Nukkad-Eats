@@ -128,7 +128,7 @@ class cartAdapter(
 
                 // Update ItemQuantities
                 itemQuantity =
-                    itemQuantity.filterIndexed { index, _ -> index != position }.toIntArray()
+                    itemQuantity.filterIndexed { index, i -> index != position }.toIntArray()
                 notifyItemRemoved(position)
                 notifyItemRangeChanged(position, cartItem.size)
             }.addOnFailureListener {
