@@ -9,8 +9,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="10dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,8 +20,8 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="15dp"
-                android:layout_margin="5dp">
+                android:layout_margin="5dp"
+                app:cardCornerRadius="15dp">
 
                 <ImageView
                     android:id="@+id/notificationImage"
@@ -38,12 +38,12 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ullu ka patha"
                 android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
-                android:textSize="12sp"
                 android:fontFamily="@font/lato"
-                android:textColor="@color/reddish"/>
+                android:text="Ullu ka patha"
+                android:textColor="@color/reddish"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
