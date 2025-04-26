@@ -27,11 +27,11 @@
             android:id="@+id/cardView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
             app:cardCornerRadius="15dp"
             app:cardElevation="10dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView16">
@@ -46,9 +46,9 @@
                     android:layout_height="87dp"
                     android:layout_margin="16dp"
                     android:layout_marginTop="8dp"
+                    android:backgroundTint="#FFE2E2"
                     app:cardCornerRadius="15dp"
                     app:cardElevation="10dp"
-                    android:backgroundTint="#FFE2E2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -61,11 +61,11 @@
                             android:id="@+id/imageView5"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
-                            android:scaleType="centerCrop"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="8dp"
                             android:background="@drawable/whitebutton"
                             android:clipToOutline="true"
+                            android:scaleType="centerCrop"
                             android:src="@drawable/sydney" />
 
                         <LinearLayout
@@ -108,9 +108,9 @@
                     android:layout_height="68dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:weightSum="2"
-                    android:elevation="5dp"
                     android:background="@drawable/whitebutton"
+                    android:elevation="5dp"
+                    android:weightSum="2"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/cardView"
                     app:layout_constraintStart_toStartOf="@+id/cardView"
@@ -120,10 +120,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        app:cardElevation="15dp"
                         android:layout_marginRight="2dp"
+                        android:layout_weight="1"
                         app:cardCornerRadius="5dp"
-                        android:layout_weight="1">
+                        app:cardElevation="15dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -142,8 +142,8 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_marginRight="2dp"
-                        app:cardElevation="15dp"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        app:cardElevation="15dp">
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:layout_width="wrap_content"
@@ -156,7 +156,6 @@
                             android:textColor="@color/reddish" />
 
                     </androidx.cardview.widget.CardView>
-
 
 
                 </LinearLayout>
@@ -185,13 +184,13 @@
 
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
-            tools:listitem="@layout/menu_items"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView21" />
+            app:layout_constraintTop_toBottomOf="@+id/textView21"
+            tools:listitem="@layout/menu_items" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
