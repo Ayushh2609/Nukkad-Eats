@@ -13,25 +13,24 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:textColor="#FF0000"
-            android:fontFamily="@font/yeon_sung"
-            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="All Items" />
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/yeon_sung"
+            android:gravity="center"
+            android:text="All Items"
+            android:textColor="#FF0000"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/viewMenuRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp" />
 
     </LinearLayout>
-
 
 
 </FrameLayout>
