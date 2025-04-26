@@ -89,12 +89,12 @@ class CartFragment : Fragment() {
                     //Get the cart items object from the Child node
                     val cartItems = foodSnapshot.getValue(CartItems::class.java)
 
-                    cartItems?.foodName?.let{ foodNames.add(it)}
-                    cartItems?.foodPrice?.let{ foodPrices.add(it)}
-                    cartItems?.foodDescription?.let{ foodDescriptions.add(it)}
-                    cartItems?.foodImage?.let{ foodImageUrl.add(it)}
-                    cartItems?.foodQuantity?.let{ quantity.add(it)}
-                    cartItems?.foodIngredient?.let{ foodIngredients.add(it)}
+                    cartItems?.foodName?.let { foodNames.add(it) }
+                    cartItems?.foodPrice?.let { foodPrices.add(it) }
+                    cartItems?.foodDescription?.let { foodDescriptions.add(it) }
+                    cartItems?.foodImage?.let { foodImageUrl.add(it) }
+                    cartItems?.foodQuantity?.let { quantity.add(it) }
+                    cartItems?.foodIngredient?.let { foodIngredients.add(it) }
 
                 }
 
@@ -102,14 +102,23 @@ class CartFragment : Fragment() {
             }
 
             private fun setAdapter() {
-                val adapter = cartAdapter(requireContext() , foodNames, foodPrices, foodImageUrl, foodDescriptions, foodIngredients, quantity)
+                val adapter = cartAdapter(
+                    requireContext(),
+                    foodNames,
+                    foodPrices,
+                    foodImageUrl,
+                    foodDescriptions,
+                    foodIngredients,
+                    quantity
+                )
 
-                binding.cartRecyclerView.layoutManager = LinearLayoutManager(requireContext() , LinearLayoutManager.VERTICAL, false)
+                binding.cartRecyclerView.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                 binding.cartRecyclerView.adapter = adapter
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext() , "Data Not Fetched" , Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Data Not Fetched", Toast.LENGTH_SHORT).show()
             }
         })
     }
