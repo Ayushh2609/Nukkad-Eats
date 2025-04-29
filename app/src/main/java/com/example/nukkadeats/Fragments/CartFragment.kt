@@ -110,6 +110,13 @@ class CartFragment : Fragment() {
                 binding.cartRecyclerView.layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                 binding.cartRecyclerView.adapter = adapter
+
+                if (adapter.itemCount == 0) {
+                    binding.cardTotalAmount.visibility = View.GONE
+                } else {
+                    binding.cardTotalAmount.visibility = View.VISIBLE
+
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
