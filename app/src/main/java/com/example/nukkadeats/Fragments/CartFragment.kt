@@ -10,11 +10,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nukkadeats.CartProceed
 import com.example.nukkadeats.Modal.CartItems
-import com.example.nukkadeats.OrderPlaced
-import com.example.nukkadeats.R
 import com.example.nukkadeats.adapters.cartAdapter
 import com.example.nukkadeats.databinding.FragmentCartBinding
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
