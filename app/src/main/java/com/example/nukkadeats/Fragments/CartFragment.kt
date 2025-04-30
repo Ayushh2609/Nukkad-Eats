@@ -50,7 +50,6 @@ class CartFragment : Fragment() {
 
         retrieveCartItems()
 
-
         binding.proceedBtn.setOnClickListener {
             val intent = Intent(requireContext(), CartProceed::class.java)
             startActivity(intent)
