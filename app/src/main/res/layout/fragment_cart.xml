@@ -43,7 +43,7 @@
             android:layout_height="200dp"
             app:cardBackgroundColor="@android:color/transparent"
             app:cardCornerRadius="20dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
