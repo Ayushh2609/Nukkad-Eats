@@ -51,11 +51,19 @@ class CartFragment : Fragment() {
         retrieveCartItems()
 
         binding.proceedBtn.setOnClickListener {
+            //Getting order items details before going to payment Activity
+            getOrderItemsDetails()
+
             val intent = Intent(requireContext(), CartProceed::class.java)
             startActivity(intent)
         }
 
         return binding.root
+    }
+
+    private fun getOrderItemsDetails() {
+
+        val orderIdReference : DatabaseReference = database.reference.child("users").child(userId).child("")
     }
 
     private fun retrieveCartItems() {
