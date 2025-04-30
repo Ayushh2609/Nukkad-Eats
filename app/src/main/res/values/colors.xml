@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="colorGrey">#dddddd</color>
 
     <color name="reddish">#DB3636</color>">
 </resources>
