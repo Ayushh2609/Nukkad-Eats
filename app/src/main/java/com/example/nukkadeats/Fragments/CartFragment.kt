@@ -2,6 +2,7 @@ package com.example.nukkadeats.Fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -33,7 +34,7 @@ class CartFragment : Fragment() {
     private lateinit var cartAdapter: cartAdapter
     private lateinit var userId: String
 
-    private lateinit var totalAmoutPrice : String
+    private lateinit var totalAmoutPrice: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,29 +58,28 @@ class CartFragment : Fragment() {
             getOrderItemsDetails()
         }
 
-
-        //Setting Subtotal Amount on the CardView
-        binding.subTotalAmount.setText(totalAmoutPrice)
-
-
-
         return binding.root
     }
 
-    private fun calculateTotalAmount(Price: MutableList<String>, quantities: MutableList<Int>):Int {
+    private fun calculateTotalAmount(
+        Price: MutableList<String>,
+        quantities: MutableList<Int>
+    ): Int {
 
         var totalAmount = 0
-        for(i in 0 until Price.size){
+        for (i in 0 until Price.size) {
             var price = Price[i]
             val lastChar = price.last()
-            val priceIntVal = if(lastChar == '$'){
+            val priceIntVal = if (lastChar == '$') {
                 price.dropLast(1).toInt()
-            }else{
+            } else {
                 price.toInt()
 
             }
             var quantity = quantities[i]
-            totalAmount += priceIntVal *quantity
+            totalAmount += priceIntVal * quantity
+            Log.d("TotalAmount", "calculateTotalAmount: $totalAmount")
+
         }
 
         return totalAmount
@@ -115,6 +115,12 @@ class CartFragment : Fragment() {
 
 
                 }
+                totalAmoutPrice = calculateTotalAmount(Price, quantities).toString()
+
+                //Setting Subtotal Amount on the CardView
+                binding.subTotalAmount.setText(totalAmoutPrice)
+
+
                 orderNow(Name, Price, ImageUri, Description, Ingredient, quantities)
             }
 
@@ -124,8 +130,6 @@ class CartFragment : Fragment() {
 
         })
 
-
-        totalAmoutPrice = calculateTotalAmount(Price , quantities).toString()
 
     }
 
