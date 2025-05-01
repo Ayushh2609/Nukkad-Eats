@@ -32,12 +32,18 @@ class CartProceed : AppCompatActivity() {
     private lateinit var imgUri: ArrayList<String>
     private lateinit var description: ArrayList<String>
     private lateinit var ingredients: ArrayList<String>
+    private lateinit var quantities: ArrayList<Int>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCartProceedBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         //Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
@@ -48,12 +54,20 @@ class CartProceed : AppCompatActivity() {
 
         setUserData()
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        val intent = intent
+        foodItemName = intent.getStringArrayListExtra("foodItemName") as ArrayList<String>
+        price = intent.getStringArrayListExtra("price") as ArrayList<String>
+        imgUri = intent.getStringArrayListExtra("imgUri") as ArrayList<String>
+        description = intent.getStringArrayListExtra("description") as ArrayList<String>
+        ingredients = intent.getStringArrayListExtra("ingredients") as ArrayList<String>
+        quantities = intent.getIntegerArrayListExtra("quantity") as ArrayList<Int>
 
+
+        //Total Price Calculation
+        totalAmount = calculateTotalAmount().toString()
+
+
+        //Place My Order
         binding.placeMyOrder.setOnClickListener {
 
             val BottomSheetDialog = OrderPlaced()
@@ -61,6 +75,25 @@ class CartProceed : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun calculateTotalAmount() :Int {
+
+        var totalAmount = 0
+        for(i in 0 until price.size){
+            var price = price[i]
+            val lastChar = price.last()
+            val priceIntVal = if(lastChar == '$'){
+                price.dropLast(1).toInt()
+            }else{
+                price.toInt()
+
+            }
+            var quantity = quantities[i]
+            totalAmount += priceIntVal *quantity
+        }
+
+        return totalAmount
     }
 
     private fun setUserData() {
