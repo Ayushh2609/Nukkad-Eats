@@ -33,11 +33,10 @@ class CartFragment : Fragment() {
     private lateinit var cartAdapter: cartAdapter
     private lateinit var userId: String
 
-    private lateinit var totalAmoutPrice : String
-    private lateinit var finalAmountPrice : String
+    private lateinit var totalAmoutPrice: String
+    private lateinit var finalAmountPrice: String
     private val deliveryCharges = 10
     private val discount = 10
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,20 +64,23 @@ class CartFragment : Fragment() {
         return binding.root
     }
 
-    private fun calculateTotalAmount(Price: MutableList<String>, quantities: MutableList<Int>):Int {
+    private fun calculateTotalAmount(
+        Price: MutableList<String>,
+        quantities: MutableList<Int>
+    ): Int {
 
         var totalAmount = 0
-        for(i in 0 until Price.size){
+        for (i in 0 until Price.size) {
             var price = Price[i]
             val lastChar = price.last()
-            val priceIntVal = if(lastChar == '$'){
+            val priceIntVal = if (lastChar == '$') {
                 price.dropLast(1).toInt()
-            }else{
+            } else {
                 price.toInt()
 
             }
             var quantity = quantities[i]
-            totalAmount += priceIntVal *quantity
+            totalAmount += priceIntVal * quantity
         }
 
         return totalAmount
@@ -122,8 +124,6 @@ class CartFragment : Fragment() {
             }
 
         })
-
-
 
 
     }
@@ -183,7 +183,7 @@ class CartFragment : Fragment() {
                     cartItems?.foodIngredient?.let { foodIngredients.add(it) }
                 }
 
-                totalAmoutPrice = calculateTotalAmount(foodPrices , quantity).toString()
+                totalAmoutPrice = calculateTotalAmount(foodPrices, quantity).toString()
 
                 //Setting Subtotal Amount on the CardView
                 binding.subTotalAmount.setText(totalAmoutPrice)
@@ -195,7 +195,8 @@ class CartFragment : Fragment() {
 
 
                 //Setting Total Amount on the CardView
-                finalAmountPrice = ((totalAmoutPrice.toInt() - ((totalAmoutPrice.toInt() * 10)/100)) + deliveryCharges ).toString()
+                finalAmountPrice =
+                    ((totalAmoutPrice.toInt() - ((totalAmoutPrice.toInt() * 10) / 100)) + deliveryCharges).toString()
                 binding.totalAmount.setText(finalAmountPrice)
 
                 setAdapter()

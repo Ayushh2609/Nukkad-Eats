@@ -79,20 +79,20 @@ class CartProceed : AppCompatActivity() {
 
     }
 
-    private fun calculateTotalAmount() :Int {
+    private fun calculateTotalAmount(): Int {
 
         var totalAmount = 0
-        for(i in 0 until price.size){
+        for (i in 0 until price.size) {
             var price = price[i]
             val lastChar = price.last()
-            val priceIntVal = if(lastChar == '$'){
+            val priceIntVal = if (lastChar == '$') {
                 price.dropLast(1).toInt()
-            }else{
+            } else {
                 price.toInt()
 
             }
             var quantity = quantities[i]
-            totalAmount += priceIntVal *quantity
+            totalAmount += priceIntVal * quantity
         }
 
         return totalAmount
@@ -110,7 +110,8 @@ class CartProceed : AppCompatActivity() {
                     if (snapshot.exists()) {
                         val names = snapshot.child("name").getValue(String::class.java) ?: ""
                         val addresses = snapshot.child("address").getValue(String::class.java) ?: ""
-                        val phoneNumbers = snapshot.child("phone").getValue(String::class.java) ?: ""
+                        val phoneNumbers =
+                            snapshot.child("phone").getValue(String::class.java) ?: ""
 
                         binding.apply {
                             nameEditText.setText(names)
@@ -119,6 +120,7 @@ class CartProceed : AppCompatActivity() {
                         }
                     }
                 }
+
                 override fun onCancelled(error: DatabaseError) {
 
                 }

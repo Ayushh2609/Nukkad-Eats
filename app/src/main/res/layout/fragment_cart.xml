@@ -41,9 +41,9 @@
             android:id="@+id/cardTotalAmount"
             android:layout_width="350dp"
             android:layout_height="200dp"
+            android:visibility="visible"
             app:cardBackgroundColor="@android:color/transparent"
             app:cardCornerRadius="20dp"
-            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 

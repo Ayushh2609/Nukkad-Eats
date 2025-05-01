@@ -44,7 +44,7 @@ class ProfileFragment : Fragment() {
             val email = binding.emailProfile.text.toString()
             val phone = binding.phoneProfile.text.toString()
 
-            updateUserData(name , address , email , phone)
+            updateUserData(name, address, email, phone)
         }
 
         return binding.root
@@ -52,7 +52,7 @@ class ProfileFragment : Fragment() {
 
     private fun updateUserData(name: String, address: String, email: String, phone: String) {
         val userId = auth.currentUser?.uid
-        if(userId != null){
+        if (userId != null) {
             val userRef = database.reference.child("users").child(userId)
 
             val userData = hashMapOf(
@@ -62,9 +62,11 @@ class ProfileFragment : Fragment() {
                 "phone" to phone
             )
             userRef.setValue(userData).addOnSuccessListener {
-                Toast.makeText(requireContext() , "Profile updated Successfully" , Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Profile updated Successfully", Toast.LENGTH_SHORT)
+                    .show()
             }.addOnFailureListener {
-                Toast.makeText(requireContext() , "Profile updated failed" , Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Profile updated failed", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
@@ -81,7 +83,7 @@ class ProfileFragment : Fragment() {
                     if (snapshot.exists()) {
 
                         val userProfile = snapshot.getValue(UserModal::class.java)
-                        if(userProfile !=null){
+                        if (userProfile != null) {
                             binding.nameProfile.setText(userProfile.name)
                             binding.addressProfile.setText(userProfile.address)
                             binding.emailProfile.setText(userProfile.email)
