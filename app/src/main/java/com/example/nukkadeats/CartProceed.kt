@@ -66,6 +66,8 @@ class CartProceed : AppCompatActivity() {
         //Total Price Calculation
         totalAmount = calculateTotalAmount().toString()
 
+        binding.passwordEditText.setText(totalAmount)
+
 
         //Place My Order
         binding.placeMyOrder.setOnClickListener {
