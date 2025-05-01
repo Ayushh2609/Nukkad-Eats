@@ -33,6 +33,8 @@ class CartFragment : Fragment() {
     private lateinit var cartAdapter: cartAdapter
     private lateinit var userId: String
 
+    private lateinit var totalAmoutPrice : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,7 +57,32 @@ class CartFragment : Fragment() {
             getOrderItemsDetails()
         }
 
+
+        //Setting Subtotal Amount on the CardView
+        binding.subTotalAmount.setText(totalAmoutPrice)
+
+
+
         return binding.root
+    }
+
+    private fun calculateTotalAmount(Price: MutableList<String>, quantities: MutableList<Int>):Int {
+
+        var totalAmount = 0
+        for(i in 0 until Price.size){
+            var price = Price[i]
+            val lastChar = price.last()
+            val priceIntVal = if(lastChar == '$'){
+                price.dropLast(1).toInt()
+            }else{
+                price.toInt()
+
+            }
+            var quantity = quantities[i]
+            totalAmount += priceIntVal *quantity
+        }
+
+        return totalAmount
     }
 
     private fun getOrderItemsDetails() {
@@ -68,6 +95,7 @@ class CartFragment : Fragment() {
         val ImageUri = mutableListOf<String>()
         val Description = mutableListOf<String>()
         val Ingredient = mutableListOf<String>()
+
 
         //Get tem Quantities
         val quantities = cartAdapter.getUpdatedItemsQuantities()
@@ -95,6 +123,10 @@ class CartFragment : Fragment() {
             }
 
         })
+
+
+        totalAmoutPrice = calculateTotalAmount(Price , quantities).toString()
+
     }
 
     private fun orderNow(
