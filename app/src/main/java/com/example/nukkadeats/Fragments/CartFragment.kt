@@ -36,6 +36,13 @@ class CartFragment : Fragment() {
 
     private lateinit var totalAmoutPrice: String
 
+    //Get tem Quantities
+    val quantities_items_ke = cartAdapter.getUpdatedItemsQuantities()
+
+    //Price ke Total amount ke liye
+    val Price_items_ke = mutableListOf<String>()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -91,14 +98,10 @@ class CartFragment : Fragment() {
             database.reference.child("users").child(userId).child("cartItems")
 
         val Name = mutableListOf<String>()
-        val Price = mutableListOf<String>()
         val ImageUri = mutableListOf<String>()
         val Description = mutableListOf<String>()
         val Ingredient = mutableListOf<String>()
 
-
-        //Get tem Quantities
-        val quantities = cartAdapter.getUpdatedItemsQuantities()
 
         orderIdReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -108,20 +111,15 @@ class CartFragment : Fragment() {
                     val cartItems = foodSnapshot.getValue(CartItems::class.java)
 
                     cartItems?.foodName?.let { Name.add(it) }
-                    cartItems?.foodPrice?.let { Price.add(it) }
+                    cartItems?.foodPrice?.let { Price_items_ke.add(it) }
                     cartItems?.foodDescription?.let { Description.add(it) }
                     cartItems?.foodImage?.let { ImageUri.add(it) }
                     cartItems?.foodIngredient?.let { Ingredient.add(it) }
 
 
                 }
-                totalAmoutPrice = calculateTotalAmount(Price, quantities).toString()
 
-                //Setting Subtotal Amount on the CardView
-                binding.subTotalAmount.setText(totalAmoutPrice)
-
-
-                orderNow(Name, Price, ImageUri, Description, Ingredient, quantities)
+                orderNow(Name, Price_items_ke, ImageUri, Description, Ingredient, quantities_items_ke)
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -189,6 +187,12 @@ class CartFragment : Fragment() {
 
 
                 }
+
+                //Calculating the total values and setting it to the subTotalAmount
+                totalAmoutPrice = calculateTotalAmount(Price_items_ke, quantities_items_ke).toString()
+
+                //Setting Subtotal Amount on the CardView
+                binding.subTotalAmount.setText(totalAmoutPrice)
 
                 setAdapter()
             }
