@@ -53,9 +53,6 @@ class CartFragment : Fragment() {
         binding.proceedBtn.setOnClickListener {
             //Getting order items details before going to payment Activity
             getOrderItemsDetails()
-
-            val intent = Intent(requireContext(), CartProceed::class.java)
-            startActivity(intent)
         }
 
         return binding.root
@@ -63,7 +60,63 @@ class CartFragment : Fragment() {
 
     private fun getOrderItemsDetails() {
 
-        val orderIdReference : DatabaseReference = database.reference.child("users").child(userId).child("")
+        val orderIdReference: DatabaseReference =
+            database.reference.child("users").child(userId).child("cartItems")
+
+        val Name = mutableListOf<String>()
+        val Price = mutableListOf<String>()
+        val ImageUri = mutableListOf<String>()
+        val Description = mutableListOf<String>()
+        val Ingredient = mutableListOf<String>()
+
+        //Get tem Quantities
+        val quantities = cartAdapter.getUpdatedItemsQuantities()
+
+        orderIdReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (foodSnapshot in snapshot.children) {
+
+                    //Get the cart items object from the Child node
+                    val cartItems = foodSnapshot.getValue(CartItems::class.java)
+
+                    cartItems?.foodName?.let { Name.add(it) }
+                    cartItems?.foodPrice?.let { Price.add(it) }
+                    cartItems?.foodDescription?.let { Description.add(it) }
+                    cartItems?.foodImage?.let { ImageUri.add(it) }
+                    cartItems?.foodIngredient?.let { Ingredient.add(it) }
+
+
+                }
+                orderNow(Name, Price, ImageUri, Description, Ingredient, quantities)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "Data Not Fetched", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+    private fun orderNow(
+        name: MutableList<String>,
+        price: MutableList<String>,
+        imageUri: MutableList<String>,
+        description: MutableList<String>,
+        ingredient: MutableList<String>,
+        quantities: MutableList<Int>
+    ) {
+        if (isAdded && context != null) {
+            val intent = Intent(requireContext(), CartProceed::class.java)
+
+            intent.putExtra("foodItemName", name as ArrayList<String>)
+            intent.putExtra("price", price as ArrayList<String>)
+            intent.putExtra("imgUri", imageUri as ArrayList<String>)
+            intent.putExtra("description", description as ArrayList<String>)
+            intent.putExtra("ingredients", ingredient as ArrayList<String>)
+            intent.putExtra("quantity", quantities as ArrayList<Int>)
+
+            startActivity(intent)
+        }
     }
 
     private fun retrieveCartItems() {
@@ -98,13 +151,14 @@ class CartFragment : Fragment() {
                     cartItems?.foodQuantity?.let { quantity.add(it) }
                     cartItems?.foodIngredient?.let { foodIngredients.add(it) }
 
+
                 }
 
                 setAdapter()
             }
 
             private fun setAdapter() {
-                val adapter = cartAdapter(
+                cartAdapter = cartAdapter(
                     requireContext(),
                     foodNames,
                     foodPrices,
@@ -116,14 +170,15 @@ class CartFragment : Fragment() {
 
                 binding.cartRecyclerView.layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                binding.cartRecyclerView.adapter = adapter
 
-                if (adapter.itemCount == 0) {
+                //Payment Cart Visible or not
+                if (cartAdapter.itemCount == 0) {
                     binding.cardTotalAmount.visibility = View.GONE
                 } else {
                     binding.cardTotalAmount.visibility = View.VISIBLE
-
                 }
+
+                binding.cartRecyclerView.adapter = cartAdapter
             }
 
             override fun onCancelled(error: DatabaseError) {
