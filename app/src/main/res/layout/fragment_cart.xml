@@ -160,7 +160,7 @@
                     app:layout_constraintTop_toTopOf="@+id/deliveryCharge" />
 
                 <TextView
-                    android:id="@+id/DiscountAmount"
+                    android:id="@+id/discountAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/rupee_icon2"

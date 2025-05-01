@@ -2,7 +2,6 @@ package com.example.nukkadeats.Fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -34,13 +33,11 @@ class CartFragment : Fragment() {
     private lateinit var cartAdapter: cartAdapter
     private lateinit var userId: String
 
-    private lateinit var totalAmoutPrice: String
+    private lateinit var totalAmoutPrice : String
+    private lateinit var subTotalAmoutPrice : String
 
-    //Get tem Quantities
-    val quantities_items_ke = cartAdapter.getUpdatedItemsQuantities()
-
-    //Price ke Total amount ke liye
-    val Price_items_ke = mutableListOf<String>()
+    private val deliveryCharges = 10
+    private val discount = 10
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,25 +65,20 @@ class CartFragment : Fragment() {
         return binding.root
     }
 
-    private fun calculateTotalAmount(
-        Price: MutableList<String>,
-        quantities: MutableList<Int>
-    ): Int {
+    private fun calculateSubTotalAmount(Price: MutableList<String>, quantities: MutableList<Int>):Int {
 
         var totalAmount = 0
-        for (i in 0 until Price.size) {
+        for(i in 0 until Price.size){
             var price = Price[i]
             val lastChar = price.last()
-            val priceIntVal = if (lastChar == '$') {
+            val priceIntVal = if(lastChar == '$'){
                 price.dropLast(1).toInt()
-            } else {
+            }else{
                 price.toInt()
 
             }
             var quantity = quantities[i]
-            totalAmount += priceIntVal * quantity
-            Log.d("TotalAmount", "calculateTotalAmount: $totalAmount")
-
+            totalAmount += priceIntVal *quantity
         }
 
         return totalAmount
@@ -98,10 +90,14 @@ class CartFragment : Fragment() {
             database.reference.child("users").child(userId).child("cartItems")
 
         val Name = mutableListOf<String>()
+        val Price = mutableListOf<String>()
         val ImageUri = mutableListOf<String>()
         val Description = mutableListOf<String>()
         val Ingredient = mutableListOf<String>()
 
+
+        //Get tem Quantities
+        val quantities = cartAdapter.getUpdatedItemsQuantities()
 
         orderIdReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -111,15 +107,14 @@ class CartFragment : Fragment() {
                     val cartItems = foodSnapshot.getValue(CartItems::class.java)
 
                     cartItems?.foodName?.let { Name.add(it) }
-                    cartItems?.foodPrice?.let { Price_items_ke.add(it) }
+                    cartItems?.foodPrice?.let { Price.add(it) }
                     cartItems?.foodDescription?.let { Description.add(it) }
                     cartItems?.foodImage?.let { ImageUri.add(it) }
                     cartItems?.foodIngredient?.let { Ingredient.add(it) }
 
 
                 }
-
-                orderNow(Name, Price_items_ke, ImageUri, Description, Ingredient, quantities_items_ke)
+                orderNow(Name, Price, ImageUri, Description, Ingredient, quantities)
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -127,6 +122,8 @@ class CartFragment : Fragment() {
             }
 
         })
+
+
 
 
     }
@@ -170,6 +167,7 @@ class CartFragment : Fragment() {
 
         foodReference.addListenerForSingleValueEvent(object : ValueEventListener {
 
+
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 for (foodSnapshot in snapshot.children) {
@@ -185,11 +183,17 @@ class CartFragment : Fragment() {
                     cartItems?.foodIngredient?.let { foodIngredients.add(it) }
                 }
 
-                //Calculating the total values and setting it to the subTotalAmount
-                totalAmoutPrice = calculateTotalAmount(Price_items_ke, quantities_items_ke).toString()
+                subTotalAmoutPrice = calculateSubTotalAmount(foodPrices , quantity).toString()
 
                 //Setting Subtotal Amount on the CardView
                 binding.subTotalAmount.setText(totalAmoutPrice)
+
+                totalAmoutPrice = (subTotalAmoutPrice.toInt() + deliveryCharges - ((subTotalAmoutPrice.toInt() * 10)/100)).toString()
+
+                binding.totalAmount.setText(totalAmoutPrice)
+//                binding.deliveryChargeAmount.setText(deliveryCharges).toString()
+//                binding.discountAmount.setText(discount).toString()
+
 
                 setAdapter()
             }
