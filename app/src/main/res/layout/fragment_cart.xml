@@ -43,7 +43,7 @@
             android:layout_height="200dp"
             app:cardBackgroundColor="@android:color/transparent"
             app:cardCornerRadius="20dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -172,7 +172,7 @@
                     app:layout_constraintTop_toTopOf="@+id/discount" />
 
                 <TextView
-                    android:id="@+id/TotalAmount"
+                    android:id="@+id/totalAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/rupee_icon2"
