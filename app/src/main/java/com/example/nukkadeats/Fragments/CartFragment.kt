@@ -170,7 +170,6 @@ class CartFragment : Fragment() {
 
         foodReference.addListenerForSingleValueEvent(object : ValueEventListener {
 
-
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 for (foodSnapshot in snapshot.children) {
@@ -184,8 +183,6 @@ class CartFragment : Fragment() {
                     cartItems?.foodImage?.let { foodImageUrl.add(it) }
                     cartItems?.foodQuantity?.let { quantity.add(it) }
                     cartItems?.foodIngredient?.let { foodIngredients.add(it) }
-
-
                 }
 
                 //Calculating the total values and setting it to the subTotalAmount
