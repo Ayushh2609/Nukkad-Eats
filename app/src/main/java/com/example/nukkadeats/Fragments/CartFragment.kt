@@ -34,10 +34,10 @@ class CartFragment : Fragment() {
     private lateinit var userId: String
 
     private lateinit var totalAmoutPrice : String
-    private lateinit var subTotalAmoutPrice : String
-
+    private lateinit var finalAmountPrice : String
     private val deliveryCharges = 10
     private val discount = 10
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +65,7 @@ class CartFragment : Fragment() {
         return binding.root
     }
 
-    private fun calculateSubTotalAmount(Price: MutableList<String>, quantities: MutableList<Int>):Int {
+    private fun calculateTotalAmount(Price: MutableList<String>, quantities: MutableList<Int>):Int {
 
         var totalAmount = 0
         for(i in 0 until Price.size){
@@ -183,17 +183,20 @@ class CartFragment : Fragment() {
                     cartItems?.foodIngredient?.let { foodIngredients.add(it) }
                 }
 
-                subTotalAmoutPrice = calculateSubTotalAmount(foodPrices , quantity).toString()
+                totalAmoutPrice = calculateTotalAmount(foodPrices , quantity).toString()
 
                 //Setting Subtotal Amount on the CardView
                 binding.subTotalAmount.setText(totalAmoutPrice)
 
-                totalAmoutPrice = (subTotalAmoutPrice.toInt() + deliveryCharges - ((subTotalAmoutPrice.toInt() * 10)/100)).toString()
 
-                binding.totalAmount.setText(totalAmoutPrice)
-//                binding.deliveryChargeAmount.setText(deliveryCharges).toString()
-//                binding.discountAmount.setText(discount).toString()
+                //Setting Delivery Charge Amount on the CardView
+                binding.deliveryChargeAmount.setText(deliveryCharges.toString())
+                binding.discountAmount.setText(discount.toString())
 
+
+                //Setting Total Amount on the CardView
+                finalAmountPrice = ((totalAmoutPrice.toInt() - ((totalAmoutPrice.toInt() * 10)/100)) + deliveryCharges ).toString()
+                binding.totalAmount.setText(finalAmountPrice)
 
                 setAdapter()
             }
