@@ -168,4 +168,13 @@ class cartAdapter(
     override fun onBindViewHolder(holder: cartViewHolder, position: Int) {
         holder.bind(position)
     }
+
+    //GET updated quantity
+    fun getUpdatedItemsQuantities(): MutableList<Int> {
+        val itemQuant = mutableListOf<Int>()
+        itemQuant.addAll(cartQuantity)
+
+        return itemQuant
+
+    }
 }
