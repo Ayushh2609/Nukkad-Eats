@@ -2,21 +2,52 @@ package com.example.nukkadeats
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.nukkadeats.databinding.ActivityCartProceedBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class CartProceed : AppCompatActivity() {
-    private lateinit var binding : ActivityCartProceedBinding
+    private lateinit var binding: ActivityCartProceedBinding
+
+    private lateinit var auth: FirebaseAuth
+    private lateinit var databaseReference: DatabaseReference
+    private lateinit var userId: String
+
+    private lateinit var name: String
+    private lateinit var address: String
+    private lateinit var phone: String
+    private lateinit var totalAmount: String
+
+    private lateinit var foodItemName: ArrayList<String>
+    private lateinit var price: ArrayList<String>
+    private lateinit var imgUri: ArrayList<String>
+    private lateinit var description: ArrayList<String>
+    private lateinit var ingredients: ArrayList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCartProceedBinding.inflate(layoutInflater)
-
         enableEdgeToEdge()
         setContentView(binding.root)
+
+        //Initialize Firebase Auth
+        auth = FirebaseAuth.getInstance()
+
+        //Initialize DatabaseReference
+        databaseReference = FirebaseDatabase.getInstance().getReference()
+        userId = auth.currentUser?.uid ?: ""
+
+        setUserData()
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -26,9 +57,39 @@ class CartProceed : AppCompatActivity() {
         binding.placeMyOrder.setOnClickListener {
 
             val BottomSheetDialog = OrderPlaced()
-            BottomSheetDialog.show(supportFragmentManager , "Test")
+            BottomSheetDialog.show(supportFragmentManager, "Test")
         }
 
+
+    }
+
+    private fun setUserData() {
+        val user = auth.currentUser
+        if (user != null) {
+            val userId = user.uid
+            val userReference = databaseReference.child("users").child(userId)
+
+            userReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    if (snapshot.exists()) {
+                        val names = snapshot.child("name").getValue(String::class.java) ?: ""
+                        val addresses = snapshot.child("address").getValue(String::class.java) ?: ""
+                        val phoneNumbers = snapshot.child("phone").getValue(String::class.java) ?: ""
+
+                        binding.apply {
+                            nameEditText.setText(names)
+                            addressEditText.setText(addresses)
+                            phoneEditText.setText(phoneNumbers)
+                        }
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+            })
+        }
 
     }
 }
