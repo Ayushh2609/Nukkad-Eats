@@ -15,6 +15,11 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
+interface OnQuantityChangeListener {
+    fun onQuantityChanged()
+
+}
+
 class cartAdapter(
     private val context: Context,
     val cartItem: MutableList<String>,
@@ -22,7 +27,9 @@ class cartAdapter(
     val cartImage: MutableList<String>,
     private val cartDescription: MutableList<String>,
     private val cartIngredient: MutableList<String>,
-    private val cartQuantity: MutableList<Int>
+    private val cartQuantity: MutableList<Int>,
+
+    private val quantityChangeListener : OnQuantityChangeListener
 
 ) : RecyclerView.Adapter<cartAdapter.cartViewHolder>() {
 
@@ -94,6 +101,8 @@ class cartAdapter(
         fun increaseQuantity(position: Int) {
             if (itemQuantity[position] < 20) {
                 itemQuantity[position]++
+                cartQuantity[position] = itemQuantity[position]
+                quantityChangeListener.onQuantityChanged()
                 binding.quantityCart.text = itemQuantity[position].toString()
             }
         }
@@ -101,6 +110,8 @@ class cartAdapter(
         fun decreaseQuantity(position: Int) {
             if (itemQuantity[position] > 1) {
                 itemQuantity[position]--
+                cartQuantity[position] = itemQuantity[position]
+                quantityChangeListener.onQuantityChanged()
                 binding.quantityCart.text = itemQuantity[position].toString()
             }
             if (itemQuantity[position] == 1) {
