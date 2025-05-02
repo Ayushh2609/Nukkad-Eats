@@ -79,10 +79,9 @@ class CartProceed : AppCompatActivity() {
             address = binding.addressEditText.text.toString().trim()
             phone = binding.phoneEditText.text.toString().trim()
 
-            if(name.isBlank() && address.isBlank() && phone.isBlank()){
-                Toast.makeText(this , "Please enter all the details" , Toast.LENGTH_SHORT).show()
-            }
-            else{
+            if (name.isBlank() && address.isBlank() && phone.isBlank()) {
+                Toast.makeText(this, "Please enter all the details", Toast.LENGTH_SHORT).show()
+            } else {
                 placeOrder()
             }
 
@@ -95,10 +94,24 @@ class CartProceed : AppCompatActivity() {
     }
 
     private fun placeOrder() {
-        userId = auth.currentUser?.uid?:""
+        userId = auth.currentUser?.uid ?: ""
         val time = System.currentTimeMillis()
         val itemPushKey = databaseReference.child("OrderDetails").push().key
-        val orderDetaild = OrderDetaild(userId , name , foodItemName , imgUri , price , quantities , address , totalAmount , phone , false , false , itemPushKey , time)
+        val orderDetaild = OrderDetaild(
+            userId,
+            name,
+            foodItemName,
+            imgUri,
+            price,
+            quantities,
+            address,
+            totalAmount,
+            phone,
+            false,
+            false,
+            itemPushKey,
+            time
+        )
 
         val orderReference = databaseReference.child("OrderDetails").child(itemPushKey!!)
         orderReference.setValue(orderDetaild).addOnSuccessListener {
@@ -109,13 +122,14 @@ class CartProceed : AppCompatActivity() {
             addOrderToHistory(orderDetaild)
         }
             .addOnFailureListener {
-                Toast.makeText(this , "Failed To order" , Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Failed To order", Toast.LENGTH_SHORT).show()
             }
 
     }
 
-    private fun addOrderToHistory(orderDetaild: OrderDetaild){
-        databaseReference.child("users").child(userId).child("OrderHistory").child(orderDetaild.itemPushKey!!)
+    private fun addOrderToHistory(orderDetaild: OrderDetaild) {
+        databaseReference.child("users").child(userId).child("OrderHistory")
+            .child(orderDetaild.itemPushKey!!)
             .setValue(orderDetaild).addOnSuccessListener {
 
             }
