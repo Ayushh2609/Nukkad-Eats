@@ -3,10 +3,13 @@ package com.example.nukkadeats
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.nukkadeats.Modal.OrderDetaild
+import com.example.nukkadeats.adapters.cartAdapter
 import com.example.nukkadeats.databinding.ActivityCartProceedBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -72,11 +75,56 @@ class CartProceed : AppCompatActivity() {
         //Place My Order
         binding.placeMyOrder.setOnClickListener {
 
+            name = binding.nameEditText.text.toString().trim()
+            address = binding.addressEditText.text.toString().trim()
+            phone = binding.phoneEditText.text.toString().trim()
+
+            if(name.isBlank() && address.isBlank() && phone.isBlank()){
+                Toast.makeText(this , "Please enter all the details" , Toast.LENGTH_SHORT).show()
+            }
+            else{
+                placeOrder()
+            }
+
+
             val BottomSheetDialog = OrderPlaced()
             BottomSheetDialog.show(supportFragmentManager, "Test")
         }
 
 
+    }
+
+    private fun placeOrder() {
+        userId = auth.currentUser?.uid?:""
+        val time = System.currentTimeMillis()
+        val itemPushKey = databaseReference.child("OrderDetails").push().key
+        val orderDetaild = OrderDetaild(userId , name , foodItemName , imgUri , price , quantities , address , totalAmount , phone , false , false , itemPushKey , time)
+
+        val orderReference = databaseReference.child("OrderDetails").child(itemPushKey!!)
+        orderReference.setValue(orderDetaild).addOnSuccessListener {
+            val BottomSheetDialog = OrderPlaced()
+            BottomSheetDialog.show(supportFragmentManager, "Test")
+
+            removeItemFromCart()
+            addOrderToHistory(orderDetaild)
+        }
+            .addOnFailureListener {
+                Toast.makeText(this , "Failed To order" , Toast.LENGTH_SHORT).show()
+            }
+
+    }
+
+    private fun addOrderToHistory(orderDetaild: OrderDetaild){
+        databaseReference.child("users").child(userId).child("OrderHistory").child(orderDetaild.itemPushKey!!)
+            .setValue(orderDetaild).addOnSuccessListener {
+
+            }
+
+    }
+
+    private fun removeItemFromCart() {
+        val cartItemReference = databaseReference.child("users").child(userId).child("cartItems")
+        cartItemReference.removeValue()
     }
 
     private fun calculateTotalAmount(): Int {
