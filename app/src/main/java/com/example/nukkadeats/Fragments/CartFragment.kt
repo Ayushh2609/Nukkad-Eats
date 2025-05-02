@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nukkadeats.CartProceed
 import com.example.nukkadeats.Modal.CartItems
+import com.example.nukkadeats.adapters.OnQuantityChangeListener
 import com.example.nukkadeats.adapters.cartAdapter
 import com.example.nukkadeats.databinding.FragmentCartBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -210,7 +211,12 @@ class CartFragment : Fragment() {
                     foodImageUrl,
                     foodDescriptions,
                     foodIngredients,
-                    quantity
+                    quantity,
+                    object : OnQuantityChangeListener{
+                        override fun onQuantityChanged() {
+                            updateAmountViews()
+                        }
+                    }
                 )
 
                 binding.cartRecyclerView.layoutManager =
@@ -230,6 +236,17 @@ class CartFragment : Fragment() {
                 Toast.makeText(requireContext(), "Data Not Fetched", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun updateAmountViews() {
+        val quant = cartAdapter.getUpdatedItemsQuantities()
+        val totalAmt = calculateTotalAmount(foodPrices, quant)
+
+        totalAmoutPrice = totalAmt.toString()
+        binding.subTotalAmount.setText(totalAmoutPrice)
+
+        finalAmountPrice = ((totalAmt - ((totalAmt * discount)/100)) + deliveryCharges).toString()
+        binding.totalAmount.setText(finalAmountPrice)
     }
 
 }
