@@ -19,7 +19,6 @@ interface OnQuantityChangeListener {
     fun onQuantityChanged()
 
 }
-
 class cartAdapter(
     private val context: Context,
     val cartItem: MutableList<String>,
