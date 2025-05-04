@@ -131,9 +131,7 @@ class CartProceed : AppCompatActivity() {
         databaseReference.child("users").child(userId).child("OrderHistory")
             .child(orderDetaild.itemPushKey!!)
             .setValue(orderDetaild).addOnSuccessListener {
-
             }
-
     }
 
     private fun removeItemFromCart() {
