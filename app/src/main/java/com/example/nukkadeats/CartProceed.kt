@@ -85,12 +85,9 @@ class CartProceed : AppCompatActivity() {
                 placeOrder()
             }
 
-
             val BottomSheetDialog = OrderPlaced()
             BottomSheetDialog.show(supportFragmentManager, "Test")
         }
-
-
     }
 
     private fun placeOrder() {
