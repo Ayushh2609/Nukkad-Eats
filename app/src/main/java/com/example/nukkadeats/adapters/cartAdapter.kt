@@ -29,7 +29,7 @@ class cartAdapter(
     private val cartIngredient: MutableList<String>,
     private val cartQuantity: MutableList<Int>,
 
-    private val quantityChangeListener : OnQuantityChangeListener
+    private val quantityChangeListener: OnQuantityChangeListener
 
 ) : RecyclerView.Adapter<cartAdapter.cartViewHolder>() {
 
