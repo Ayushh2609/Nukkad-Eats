@@ -65,7 +65,6 @@ class CartProceed : AppCompatActivity() {
         ingredients = intent.getStringArrayListExtra("ingredients") as ArrayList<String>
         quantities = intent.getIntegerArrayListExtra("quantity") as ArrayList<Int>
 
-
         //Total Price Calculation
         totalAmount = calculateTotalAmount().toString()
 
