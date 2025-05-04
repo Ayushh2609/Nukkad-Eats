@@ -71,7 +71,6 @@ class CartProceed : AppCompatActivity() {
 
         binding.passwordEditText.setText(totalAmount)
 
-
         //Place My Order
         binding.placeMyOrder.setOnClickListener {
 
