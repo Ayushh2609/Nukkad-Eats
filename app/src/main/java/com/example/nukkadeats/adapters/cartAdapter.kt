@@ -42,8 +42,6 @@ class cartAdapter(
 
         itemQuantity = IntArray(cartItem.size) { 1 }
         cartItemsReference = database.reference.child("users").child(userId).child("cartItems")
-
-
     }
 
     companion object {
