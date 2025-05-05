@@ -50,7 +50,6 @@ class cartAdapter(
 
     }
 
-
     inner class cartViewHolder(private val binding: CartItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
