@@ -81,7 +81,6 @@ class cartAdapter(
                     }
                 }
             }
-
         }
 
         private fun deleteQuantity(position: Int) {
