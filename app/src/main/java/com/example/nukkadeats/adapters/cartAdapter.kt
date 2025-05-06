@@ -161,6 +161,7 @@ class cartAdapter(
         })
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): cartViewHolder {
         val binding = CartItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return cartViewHolder(binding)
