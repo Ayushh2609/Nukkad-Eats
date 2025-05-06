@@ -156,7 +156,6 @@ class cartAdapter(
 
             override fun onCancelled(error: DatabaseError) {
             }
-
         })
     }
 
