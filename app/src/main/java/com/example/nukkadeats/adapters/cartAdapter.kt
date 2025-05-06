@@ -115,7 +115,6 @@ class cartAdapter(
                 }
             }
         }
-
     }
 
     private fun removeItem(position: Int, uniqueKey: String) {
