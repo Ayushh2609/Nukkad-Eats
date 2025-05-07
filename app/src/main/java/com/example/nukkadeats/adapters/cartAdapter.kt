@@ -170,6 +170,7 @@ class cartAdapter(
         holder.bind(position)
     }
 
+
     //GET updated quantity
     fun getUpdatedItemsQuantities(): MutableList<Int> {
         val itemQuant = mutableListOf<Int>()
