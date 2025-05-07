@@ -176,6 +176,5 @@ class cartAdapter(
         itemQuant.addAll(cartQuantity)
 
         return itemQuant
-
     }
 }
