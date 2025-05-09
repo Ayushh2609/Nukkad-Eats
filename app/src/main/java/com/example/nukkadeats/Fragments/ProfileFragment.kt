@@ -37,7 +37,6 @@ class ProfileFragment : Fragment() {
         setUserData()
 
         binding.saveInfoProfile.setOnClickListener {
-
             val name = binding.nameProfile.text.toString()
             val address = binding.addressProfile.text.toString()
             val email = binding.emailProfile.text.toString()
