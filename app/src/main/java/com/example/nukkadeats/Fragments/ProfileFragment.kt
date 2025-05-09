@@ -34,7 +34,6 @@ class ProfileFragment : Fragment() {
     ): View? {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
-
         setUserData()
 
         binding.saveInfoProfile.setOnClickListener {
