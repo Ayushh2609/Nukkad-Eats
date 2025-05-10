@@ -61,7 +61,6 @@ class OrderDetaild() : Parcelable{
         this.paymentReceived = b1
         this.itemPushKey = itemPushKey
         this.currentTime = time
-
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
