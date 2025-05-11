@@ -126,7 +126,6 @@ class CartFragment : Fragment() {
 
         })
 
-
     }
 
     private fun orderNow(
