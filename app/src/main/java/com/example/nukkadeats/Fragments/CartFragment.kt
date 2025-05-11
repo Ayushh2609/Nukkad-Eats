@@ -246,5 +246,4 @@ class CartFragment : Fragment() {
         finalAmountPrice = ((totalAmt - ((totalAmt * discount)/100)) + deliveryCharges).toString()
         binding.totalAmount.setText(finalAmountPrice)
     }
-
 }
