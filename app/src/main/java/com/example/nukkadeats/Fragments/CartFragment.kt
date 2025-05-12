@@ -210,7 +210,7 @@ class CartFragment : Fragment() {
                     foodDescriptions,
                     foodIngredients,
                     quantity,
-                    object : OnQuantityChangeListener{
+                    object : OnQuantityChangeListener {
                         override fun onQuantityChanged() {
                             updateAmountViews()
                         }
@@ -243,7 +243,7 @@ class CartFragment : Fragment() {
         totalAmoutPrice = totalAmt.toString()
         binding.subTotalAmount.setText(totalAmoutPrice)
 
-        finalAmountPrice = ((totalAmt - ((totalAmt * discount)/100)) + deliveryCharges).toString()
+        finalAmountPrice = ((totalAmt - ((totalAmt * discount) / 100)) + deliveryCharges).toString()
         binding.totalAmount.setText(finalAmountPrice)
     }
 }
