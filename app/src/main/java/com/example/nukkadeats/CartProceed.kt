@@ -175,6 +175,7 @@ class CartProceed : AppCompatActivity() {
                         }
                     }
                 }
+
                 override fun onCancelled(error: DatabaseError) {
                 }
             })
