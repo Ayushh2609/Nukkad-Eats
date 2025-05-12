@@ -5,21 +5,21 @@ import android.os.Parcelable
 import com.facebook.FacebookBroadcastReceiver
 import java.util.ArrayList
 
-class OrderDetaild() : Parcelable{
+class OrderDetaild() : Parcelable {
 
-    var userId : String? =null
-    var userName : String? = null
-    var foodNames : MutableList<String>? = null
-    var foodImages : MutableList<String>? = null
-    var foodPrices : MutableList<String>? = null
-    var foodQuantities : MutableList<Int>? = null
-    var address : String? = null
-    var totalPrices : String? = null
-    var phoneNumber : String? = null
-    var orderAccepted : Boolean = false
-    var paymentReceived : Boolean = false
-    var itemPushKey : String? = null
-    var currentTime : Long = 0
+    var userId: String? = null
+    var userName: String? = null
+    var foodNames: MutableList<String>? = null
+    var foodImages: MutableList<String>? = null
+    var foodPrices: MutableList<String>? = null
+    var foodQuantities: MutableList<Int>? = null
+    var address: String? = null
+    var totalPrices: String? = null
+    var phoneNumber: String? = null
+    var orderAccepted: Boolean = false
+    var paymentReceived: Boolean = false
+    var itemPushKey: String? = null
+    var currentTime: Long = 0
 
     constructor(parcel: Parcel) : this() {
         userId = parcel.readString()
@@ -47,7 +47,7 @@ class OrderDetaild() : Parcelable{
         b1: Boolean,
         itemPushKey: String?,
         time: Long
-    ) : this(){
+    ) : this() {
         this.userId = userId
         this.userName = name
         this.foodNames = foodItemName
