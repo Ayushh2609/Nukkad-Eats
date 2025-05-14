@@ -62,7 +62,6 @@ class OrderDetaild() : Parcelable {
         this.itemPushKey = itemPushKey
         this.currentTime = time
     }
-
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(userId)
         parcel.writeString(userName)
