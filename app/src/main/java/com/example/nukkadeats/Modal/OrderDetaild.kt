@@ -88,5 +88,4 @@ class OrderDetaild() : Parcelable {
             return arrayOfNulls(size)
         }
     }
-
 }
