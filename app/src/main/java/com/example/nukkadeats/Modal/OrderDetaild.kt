@@ -79,7 +79,6 @@ class OrderDetaild() : Parcelable {
         return 0
     }
 
-
     companion object CREATOR : Parcelable.Creator<OrderDetaild> {
         override fun createFromParcel(parcel: Parcel): OrderDetaild {
             return OrderDetaild(parcel)
