@@ -37,6 +37,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView16">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/recentlyBuyItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -58,7 +59,7 @@
                         android:layout_height="match_parent">
 
                         <ImageView
-                            android:id="@+id/imageView5"
+                            android:id="@+id/recentOrderImage"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center_vertical"
@@ -76,7 +77,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textView19"
+                                android:id="@+id/recentOrderName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
@@ -85,7 +86,7 @@
                                 android:textColor="@color/reddish" />
 
                             <TextView
-                                android:id="@+id/textView20"
+                                android:id="@+id/recentOrderDistance"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
@@ -117,6 +118,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/cardView">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/recentOrderCall"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -138,6 +140,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/recentOrderStatus"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
