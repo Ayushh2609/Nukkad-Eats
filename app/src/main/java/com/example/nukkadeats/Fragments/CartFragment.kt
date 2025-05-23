@@ -14,11 +14,7 @@ import com.example.nukkadeats.adapters.OnQuantityChangeListener
 import com.example.nukkadeats.adapters.cartAdapter
 import com.example.nukkadeats.databinding.FragmentCartBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 
 class CartFragment : Fragment() {
     private lateinit var binding: FragmentCartBinding
@@ -39,26 +35,24 @@ class CartFragment : Fragment() {
     private val deliveryCharges = 10
     private val discount = 10
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCartBinding.inflate(inflater, container, false)
-        // Inflate the layout for this fragment
 
-        //Initializing Auth
+        // Initializing Firebase Auth
         auth = FirebaseAuth.getInstance()
 
+        // Retrieve cart items
         retrieveCartItems()
 
+        // Set click listener for proceed button
         binding.proceedBtn.setOnClickListener {
-            //Getting order items details before going to payment Activity
             getOrderItemsDetails()
         }
 
@@ -69,26 +63,22 @@ class CartFragment : Fragment() {
         Price: MutableList<String>,
         quantities: MutableList<Int>
     ): Int {
-
         var totalAmount = 0
         for (i in 0 until Price.size) {
-            var price = Price[i]
+            val price = Price[i]
             val lastChar = price.last()
             val priceIntVal = if (lastChar == '$') {
                 price.dropLast(1).toInt()
             } else {
                 price.toInt()
-
             }
-            var quantity = quantities[i]
+            val quantity = quantities[i]
             totalAmount += priceIntVal * quantity
         }
-
         return totalAmount
     }
 
     private fun getOrderItemsDetails() {
-
         val orderIdReference: DatabaseReference =
             database.reference.child("users").child(userId).child("cartItems")
 
@@ -98,15 +88,11 @@ class CartFragment : Fragment() {
         val Description = mutableListOf<String>()
         val Ingredient = mutableListOf<String>()
 
-
-        //Get tem Quantities
         val quantities = cartAdapter.getUpdatedItemsQuantities()
 
         orderIdReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (foodSnapshot in snapshot.children) {
-
-                    //Get the cart items object from the Child node
                     val cartItems = foodSnapshot.getValue(CartItems::class.java)
 
                     cartItems?.foodName?.let { Name.add(it) }
@@ -114,16 +100,17 @@ class CartFragment : Fragment() {
                     cartItems?.foodDescription?.let { Description.add(it) }
                     cartItems?.foodImage?.let { ImageUri.add(it) }
                     cartItems?.foodIngredient?.let { Ingredient.add(it) }
-
-
                 }
+
                 orderNow(Name, Price, ImageUri, Description, Ingredient, quantities)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Data Not Fetched", Toast.LENGTH_SHORT).show()
+                // ✅ Added isAdded check to safely use context
+                if (isAdded) {
+                    Toast.makeText(requireContext(), "Data Not Fetched", Toast.LENGTH_SHORT).show()
+                }
             }
-
         })
     }
 
@@ -135,16 +122,15 @@ class CartFragment : Fragment() {
         ingredient: MutableList<String>,
         quantities: MutableList<Int>
     ) {
+        // ✅ Safely start activity only if fragment is still attached
         if (isAdded && context != null) {
             val intent = Intent(requireContext(), CartProceed::class.java)
-
             intent.putExtra("foodItemName", name as ArrayList<String>)
             intent.putExtra("price", price as ArrayList<String>)
             intent.putExtra("imgUri", imageUri as ArrayList<String>)
             intent.putExtra("description", description as ArrayList<String>)
             intent.putExtra("ingredients", ingredient as ArrayList<String>)
             intent.putExtra("quantity", quantities as ArrayList<Int>)
-
             startActivity(intent)
         }
     }
@@ -156,7 +142,6 @@ class CartFragment : Fragment() {
         val foodReference: DatabaseReference =
             database.reference.child("users").child(userId).child("cartItems")
 
-        //List to store cart items
         foodNames = mutableListOf()
         foodPrices = mutableListOf()
         foodImageUrl = mutableListOf()
@@ -165,13 +150,8 @@ class CartFragment : Fragment() {
         quantity = mutableListOf()
 
         foodReference.addListenerForSingleValueEvent(object : ValueEventListener {
-
-
             override fun onDataChange(snapshot: DataSnapshot) {
-
                 for (foodSnapshot in snapshot.children) {
-
-                    //Get the cart items object from the Child node
                     val cartItems = foodSnapshot.getValue(CartItems::class.java)
 
                     cartItems?.foodName?.let { foodNames.add(it) }
@@ -183,57 +163,53 @@ class CartFragment : Fragment() {
                 }
 
                 totalAmoutPrice = calculateTotalAmount(foodPrices, quantity).toString()
-
-                //Setting Subtotal Amount on the CardView
-                binding.subTotalAmount.setText(totalAmoutPrice)
-
-
-                //Setting Delivery Charge Amount on the CardView
-                binding.deliveryChargeAmount.setText(deliveryCharges.toString())
-                binding.discountAmount.setText(discount.toString())
-
-
-                //Setting Total Amount on the CardView
                 finalAmountPrice =
                     ((totalAmoutPrice.toInt() - ((totalAmoutPrice.toInt() * 10) / 100)) + deliveryCharges).toString()
-                binding.totalAmount.setText(finalAmountPrice)
 
-                setAdapter()
-            }
+                // ✅ Safely update views only if fragment is attached
+                if (isAdded) {
+                    binding.subTotalAmount.setText(totalAmoutPrice)
+                    binding.deliveryChargeAmount.setText(deliveryCharges.toString())
+                    binding.discountAmount.setText(discount.toString())
+                    binding.totalAmount.setText(finalAmountPrice)
 
-            private fun setAdapter() {
-                cartAdapter = cartAdapter(
-                    requireContext(),
-                    foodNames,
-                    foodPrices,
-                    foodImageUrl,
-                    foodDescriptions,
-                    foodIngredients,
-                    quantity,
-                    object : OnQuantityChangeListener {
-                        override fun onQuantityChanged() {
-                            updateAmountViews()
-                        }
-                    }
-                )
-
-                binding.cartRecyclerView.layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-
-                //Payment Cart Visible or not
-                if (cartAdapter.itemCount == 0) {
-                    binding.cardTotalAmount.visibility = View.GONE
-                } else {
-                    binding.cardTotalAmount.visibility = View.VISIBLE
+                    setAdapter() // ✅ Now safe to call
                 }
-
-                binding.cartRecyclerView.adapter = cartAdapter
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Data Not Fetched", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    Toast.makeText(requireContext(), "Data Not Fetched", Toast.LENGTH_SHORT).show()
+                }
             }
         })
+    }
+
+    private fun setAdapter() {
+        // ✅ Replaced requireContext() with context?.let for safe usage
+        context?.let { ctx ->
+            cartAdapter = cartAdapter(
+                ctx,
+                foodNames,
+                foodPrices,
+                foodImageUrl,
+                foodDescriptions,
+                foodIngredients,
+                quantity,
+                object : OnQuantityChangeListener {
+                    override fun onQuantityChanged() {
+                        updateAmountViews()
+                    }
+                }
+            )
+
+            binding.cartRecyclerView.layoutManager =
+                LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false)
+            binding.cartRecyclerView.adapter = cartAdapter
+
+            binding.cardTotalAmount.visibility =
+                if (cartAdapter.itemCount == 0) View.GONE else View.VISIBLE
+        }
     }
 
     private fun updateAmountViews() {
@@ -241,9 +217,12 @@ class CartFragment : Fragment() {
         val totalAmt = calculateTotalAmount(foodPrices, quant)
 
         totalAmoutPrice = totalAmt.toString()
-        binding.subTotalAmount.setText(totalAmoutPrice)
-
         finalAmountPrice = ((totalAmt - ((totalAmt * discount) / 100)) + deliveryCharges).toString()
-        binding.totalAmount.setText(finalAmountPrice)
+
+        // ✅ Added isAdded check before updating UI
+        if (isAdded) {
+            binding.subTotalAmount.setText(totalAmoutPrice)
+            binding.totalAmount.setText(finalAmountPrice)
+        }
     }
 }
