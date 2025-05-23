@@ -1,24 +1,29 @@
 package com.example.nukkadeats.adapters
 
+import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.nukkadeats.databinding.BuyAgainItemBinding
 
 class BuyAgainAdapter(
-    private val buyAgainFoodName: ArrayList<String>,
-    private val buyAgainFoodDescription: ArrayList<String>,
-    private val buyAgainFoodPrice: ArrayList<String>,
-    private val buyAgainFoodImage: ArrayList<Int>
+    private val buyAgainFoodName: MutableList<String>,
+    private val buyAgainFoodPrice: MutableList<String>,
+    private val buyAgainFoodImage: MutableList<String>,
+
+    private var requireContext : Context
 ) :
     RecyclerView.Adapter<BuyAgainAdapter.BuyAgainViewHolder>() {
-    class BuyAgainViewHolder(private val binding: BuyAgainItemBinding) :
+    inner class BuyAgainViewHolder(private val binding: BuyAgainItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(s: String, s1: String, s2: String, i: Int) {
+        fun bind(s: String,  s2: String, i: String) {
             binding.menuItemName.text = s
-            binding.menuItemDescription.text = s1
             binding.menuItemPrice.text = s2
-            binding.menuItemImage.setImageResource(i)
+            var uriString = i
+            val uri = Uri.parse(uriString)
+            Glide.with(requireContext).load(uri).into(binding.menuItemImage)
         }
 
     }
@@ -34,7 +39,6 @@ class BuyAgainAdapter(
     override fun onBindViewHolder(holder: BuyAgainViewHolder, position: Int) {
         holder.bind(
             buyAgainFoodName[position],
-            buyAgainFoodDescription[position],
             buyAgainFoodPrice[position],
             buyAgainFoodImage[position]
         )
