@@ -83,7 +83,6 @@
 
 
 
-
                 <EditText
                     android:id="@+id/addressProfile"
                     android:layout_width="match_parent"
