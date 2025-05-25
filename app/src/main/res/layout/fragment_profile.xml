@@ -81,7 +81,6 @@
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
-
                 <EditText
                     android:id="@+id/addressProfile"
                     android:layout_width="match_parent"
