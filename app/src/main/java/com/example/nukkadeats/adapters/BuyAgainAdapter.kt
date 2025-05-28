@@ -13,7 +13,7 @@ class BuyAgainAdapter(
     private val buyAgainFoodPrice: MutableList<String>,
     private val buyAgainFoodImage: MutableList<String>,
 
-    private var requireContext : Context
+    private var requireContext: Context
 ) :
     RecyclerView.Adapter<BuyAgainAdapter.BuyAgainViewHolder>() {
     inner class BuyAgainViewHolder(private val binding: BuyAgainItemBinding) :
