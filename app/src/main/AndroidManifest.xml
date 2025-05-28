@@ -19,10 +19,6 @@
             android:name=".recentOrderItems"
             android:exported="false" />
         <activity
-            android:name=".recentOrderItem"
-            android:exported="false"
-            android:label="@string/title_activity_recent_order_item" />
-        <activity
             android:name=".ItemDetailsActivity"
             android:exported="false" />
         <activity
