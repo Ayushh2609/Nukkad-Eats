@@ -3,9 +3,10 @@ package com.example.nukkadeats.Modal
 import android.os.Parcel
 import android.os.Parcelable
 import com.facebook.FacebookBroadcastReceiver
+import java.io.Serializable
 import java.util.ArrayList
 
-class OrderDetaild() : Parcelable {
+class OrderDetaild() : Serializable {
 
     var userId: String? = null
     var userName: String? = null
@@ -63,7 +64,7 @@ class OrderDetaild() : Parcelable {
         this.currentTime = time
     }
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
+    fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(userId)
         parcel.writeString(userName)
         parcel.writeString(address)
@@ -75,7 +76,7 @@ class OrderDetaild() : Parcelable {
         parcel.writeLong(currentTime)
     }
 
-    override fun describeContents(): Int {
+    fun describeContents(): Int {
         return 0
     }
 

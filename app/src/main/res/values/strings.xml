@@ -6,6 +6,7 @@
     <string name="call_for_information"><u>Call for Information</u>></string>
     <string name="previously_buy"><u>Previously Buy</u></string>
     <string name="payment_method">Payment\nMethod</string>
+    <string name="more_details"><u>Tap for more Details...</u></string>
 
 
 </resources>
