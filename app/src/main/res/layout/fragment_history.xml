@@ -86,15 +86,15 @@
                                 android:textColor="@color/reddish" />
 
                             <TextView
-                                android:id="@+id/recentOrderDistance"
+                                android:id="@+id/moreDetails"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:drawableLeft="@drawable/location_icon"
                                 android:drawablePadding="4dp"
-                                android:text="Abhi 10 km dur hai"
+                                android:text="@string/more_details"
                                 android:textColor="#8C8484"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                         </LinearLayout>
 
@@ -183,7 +183,7 @@
             app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/buyagainRecyclerView"
+            android:id="@+id/buyAgainRecyclerView"
 
             android:layout_width="0dp"
             android:layout_height="0dp"
