@@ -1,12 +1,14 @@
 package com.example.nukkadeats.Fragments
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.nukkadeats.Modal.OrderDetaild
@@ -55,8 +57,20 @@ class HistoryFragment : Fragment() {
             seeItemsRecentBuy()
         }
 
+        binding.receivedBottom.setOnClickListener{
+            updateOrderStatus()
+            Toast.makeText(requireContext() , "Order is Received" , Toast.LENGTH_SHORT).show()
+        }
+
 
         return binding.root
+    }
+
+    private fun updateOrderStatus() {
+        val itemPushKey = listOfOrderItems[0].itemPushKey
+        val completeOrderReference = database.reference.child("CompleteOrder").child(itemPushKey!!)
+        completeOrderReference.child("paymentReceived").setValue(true)
+
     }
 
     private fun seeItemsRecentBuy() {
@@ -109,6 +123,13 @@ class HistoryFragment : Fragment() {
                 val uri = Uri.parse(image)
 
                 Glide.with(requireContext()).load(uri).into(recentOrderImage)
+
+                val isOrderAccepted = listOfOrderItems[0].orderAccepted
+                if(isOrderAccepted){
+                    receivedBottom.text = "Received"
+                    receivedBottom.visibility = View.VISIBLE
+                    receivedBottom.setTextColor(Color.parseColor("#FF0000"))
+                }
             }
         }
     }

@@ -141,6 +141,7 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/recentOrderStatus"
+
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -149,14 +150,16 @@
                         app:cardElevation="15dp">
 
                         <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/receivedBottom"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:visibility="invisible"
                             android:background="@android:color/transparent"
                             android:drawablePadding="8dp"
                             android:fontFamily="@font/yeon_sung"
-                            android:text="Received"
-                            android:textColor="@color/reddish" />
+                            android:text="Not Accepted by vendor"
+                            android:textColor="#472E2E"/>
 
                     </androidx.cardview.widget.CardView>
 

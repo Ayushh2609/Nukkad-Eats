@@ -149,7 +149,7 @@ class HomeFragment : Fragment() {
         menuItems = mutableListOf()
 
         // Retrieve database
-        foodref.addListenerForSingleValueEvent(object : ValueEventListener {
+        foodref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (foodSnapshot in snapshot.children) {
                     val menuItem = foodSnapshot.getValue(MenuItemModal::class.java)
