@@ -63,7 +63,6 @@ class SearchFragment : Fragment() {
 
         })
     }
-
     private fun showAllMenu() {
         val filteredMenuItem = ArrayList(originalMenuItem)
         setAdapter(filteredMenuItem)
