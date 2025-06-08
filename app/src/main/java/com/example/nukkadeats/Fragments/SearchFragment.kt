@@ -94,5 +94,4 @@ class SearchFragment : Fragment() {
         }
         setAdapter(filteredMenuItems)
     }
-
 }
