@@ -89,7 +89,6 @@ class SearchFragment : Fragment() {
     }
 
 
-
     private fun filterMenuItems(query: String) {
         val filteredMenuItems = originalMenuItem.filter {
             it.foodName?.contains(query, ignoreCase = true) == true
