@@ -144,7 +144,6 @@ class ChooseLocationActivity : AppCompatActivity() {
             "Ladakh" to listOf("Leh", "Kargil")
         )
 
-
         val states = stateCityMap.keys.toList()
         val cities = stateCityMap.values.flatten().distinct().sorted()
         val stateAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, states)
