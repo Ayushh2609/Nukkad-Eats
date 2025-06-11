@@ -36,7 +36,6 @@ class MainAdapter(
             )
         )
 
-
     override fun getItemCount(): Int = users.size
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) =
