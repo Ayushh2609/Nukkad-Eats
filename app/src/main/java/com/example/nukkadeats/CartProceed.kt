@@ -1,15 +1,14 @@
 package com.example.nukkadeats
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.nukkadeats.Modal.OrderDetaild
-import com.example.nukkadeats.adapters.cartAdapter
 import com.example.nukkadeats.databinding.ActivityCartProceedBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -17,6 +16,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+
+
 
 class CartProceed : AppCompatActivity() {
     private lateinit var binding: ActivityCartProceedBinding
@@ -77,16 +78,67 @@ class CartProceed : AppCompatActivity() {
             address = binding.addressEditText.text.toString().trim()
             phone = binding.phoneEditText.text.toString().trim()
 
-            if (name.isBlank() && address.isBlank() && phone.isBlank()) {
+            if (name == "" || address == "" || phone == "") {
                 Toast.makeText(this, "Please enter all the details", Toast.LENGTH_SHORT).show()
             } else {
-                placeOrder()
+                onlinePayment(totalAmount)
             }
-
-            val BottomSheetDialog = OrderPlaced()
-            BottomSheetDialog.show(supportFragmentManager, "Test")
         }
     }
+
+    private fun onlinePayment(totalAmount: String) {
+
+        val uri = Uri.parse("upi://pay").buildUpon()
+            .appendQueryParameter("pa" , "test@upi")
+            .appendQueryParameter("pn" , "Ayush Paliwal")
+            .appendQueryParameter("tn" , "Food Payment")
+            .appendQueryParameter("am" , totalAmount)
+            .appendQueryParameter("cu" , "INR")
+            .build()
+
+        val intent = Intent(Intent.ACTION_VIEW , uri)
+
+        val chooser = Intent.createChooser(intent , "Pay with UPI")
+
+        if(chooser.resolveActivity(packageManager) != null){
+            startActivityForResult(chooser , 100)
+        }
+        else{
+            Toast.makeText(this@CartProceed , "Upi App not found" , Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 100) {
+            val response = data?.getStringExtra("response") ?: ""
+            val status = getStatusFromResponse(response)
+
+            when (status) {
+                "SUCCESS" ->{
+                    Toast.makeText(this, "Payment successful", Toast.LENGTH_SHORT).show()
+                    placeOrder()
+                }
+                "FAILURE" -> Toast.makeText(this, "Payment failed", Toast.LENGTH_SHORT).show()
+                "CANCELLED" -> Toast.makeText(this, "Payment cancelled", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun getStatusFromResponse(response: String): String {
+        val parts = response.split("&")
+        for (part in parts) {
+            val pair = part.split("=")
+            if (pair.size == 2 && pair[0].lowercase() == "status") {
+                return pair[1].uppercase()
+            }
+        }
+        return "CANCELLED"
+    }
+
+
 
     private fun placeOrder() {
         userId = auth.currentUser?.uid ?: ""
