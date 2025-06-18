@@ -54,11 +54,13 @@ class cartAdapter(
     inner class cartViewHolder(private val binding: CartItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
+            val safePosition = adapterPosition
+            if (safePosition == RecyclerView.NO_POSITION) return
             binding.apply {
                 val quantity = itemQuantity[position]
 
-                nameCartItem.text = cartItem[position]
-                cartItemPrice.text = cartPrice[position]
+                nameCartItem.text = cartItem[safePosition]
+                cartItemPrice.text = cartPrice[safePosition]
 
                 val uriString = cartImage[position]
                 val uri = Uri.parse(uriString)
@@ -66,19 +68,24 @@ class cartAdapter(
 
                 quantityCart.text = quantity.toString()
 
-                minusCart.setOnClickListener {
-                    decreaseQuantity(position)
-
-                }
-                plusCart.setOnClickListener {
-                    increaseQuantity(position)
-                }
-
                 deleteCart.setOnClickListener {
-                    val itemPosition = adapterPosition
-                    if (itemPosition != RecyclerView.NO_POSITION) {
-                        deleteQuantity(position)
+                    val realPosition = adapterPosition
+                    if (realPosition != RecyclerView.NO_POSITION) {
+                        deleteQuantity(realPosition)
+                    }
+                }
 
+                minusCart.setOnClickListener {
+                    val realPosition = adapterPosition
+                    if (realPosition != RecyclerView.NO_POSITION) {
+                        decreaseQuantity(realPosition)
+                    }
+                }
+
+                plusCart.setOnClickListener {
+                    val realPosition = adapterPosition
+                    if (realPosition != RecyclerView.NO_POSITION) {
+                        increaseQuantity(realPosition)
                     }
                 }
             }
